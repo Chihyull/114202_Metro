@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">114202</string>
+    <string name="title">114202</string>
+    <string name="login">Login</string>
+    <string name="my_favorite">My Favorite</string>
+    <string name="stations">Stations</string>
+    <string name="routeplanning">RoutePlanning</string>
+    <string name="metro_explorer">Metro Explorer</string>
+    <string name="metro_guiding">Metro Guiding</string>
+    <string name="wenhu_line">Wenhu Line</string>
+    <string name="tamsui_xinyi_line">Tamsui-Xinyi Line</string>
+    <string name="songshan_xindian_line">Songshan-Xindian Line</string>
+    <string name="zhonghe_xinlu_line">Zhonghe-Xinlu Line</string>
+    <string name="bannan_line">Bannan Line</string>
+    <string name="circular_line">Circular Line</string>
+</resources>
