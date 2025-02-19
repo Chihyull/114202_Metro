@@ -1,0 +1,417 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="120dp"
+        android:layout_height="38dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="60dp"
+        android:gravity="top"
+        android:text="@string/title"
+        android:textAppearance="@style/BigTitle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <RelativeLayout
+        android:id="@+id/google_login"
+        android:layout_width="68dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="119dp"
+        android:layout_marginEnd="21dp"
+        android:background="@drawable/google_login"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <RelativeLayout
+            android:id="@+id/icon_google"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_marginStart="9dp"
+            android:layout_marginTop="6.5dp"
+            android:background="@drawable/icon_google"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="26dp"
+            android:layout_marginTop="4.5dp"
+            android:gravity="top"
+            android:text="@string/login"
+            android:textAppearance="@style/ContentNotBold" />
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/account_photo"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="5dp"
+        android:background="@drawable/account_photo"
+        android:clipToOutline="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints">
+
+    </ImageView>
+
+    <TextView
+        android:id="@+id/my_favorite"
+        android:layout_width="140dp"
+        android:layout_height="30dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="119dp"
+        android:gravity="top"
+        android:text="@string/my_favorite"
+        android:textAppearance="@style/SubTitle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <RelativeLayout
+
+        android:id="@+id/my_favorite_"
+        android:layout_width="323dp"
+        android:layout_height="45dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="169dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <RelativeLayout
+            android:id="@+id/station_rectangle_8"
+            android:layout_width="153dp"
+            android:layout_height="45dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/rectangle_8">
+
+            <RelativeLayout
+                android:id="@+id/icon_stations"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="22dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/icon_stations"
+                android:clipToOutline="true"
+                tools:layout_alignParentTop="true" />
+
+            <TextView
+                android:id="@+id/stations"
+                android:layout_width="57.87dp"
+                android:layout_height="16dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="65dp"
+                android:layout_marginTop="15dp"
+                android:gravity="top"
+                android:text="@string/stations"
+                android:textAppearance="@style/ContentNotBold" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/routeplanning_rectangle_8"
+            android:layout_width="153dp"
+            android:layout_height="45dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="170dp"
+            android:background="@drawable/rectangle_8">
+
+            <RelativeLayout
+                android:id="@+id/icon_routeplanning"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/icon_routeplanning"
+                android:clipToOutline="true" />
+
+            <TextView
+                android:id="@+id/routeplanning"
+                android:layout_width="104dp"
+                android:layout_height="16dp"
+                android:layout_marginStart="55dp"
+                android:layout_marginTop="15dp"
+                android:gravity="top"
+                android:text="@string/routeplanning"
+                android:textAppearance="@style/ContentNotBold" />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/metro_explorer"
+        android:layout_width="169dp"
+        android:layout_height="30dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="234dp"
+        android:gravity="top"
+        android:text="@string/metro_explore"
+        android:textAppearance="@style/SubTitle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/metro_explorer_map"
+        android:layout_width="350dp"
+        android:layout_height="315dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="31dp"
+        android:layout_marginTop="281dp"
+        android:background="@drawable/metro_map"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/metro_guiding"
+        android:layout_width="158dp"
+        android:layout_height="30dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="621dp"
+        android:gravity="top"
+        android:text="@string/metro_guiding"
+        android:textAppearance="@style/SubTitle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <RelativeLayout
+        android:id="@+id/metro_guiding_"
+        android:layout_width="956dp"
+        android:layout_height="171dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="661dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" >
+
+        <RelativeLayout
+            android:id="@+id/wenhu"
+            android:layout_width="145dp"
+            android:layout_height="145dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/wenhu">
+
+            <View
+                android:id="@+id/wenhu_photo"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="12dp"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="14dp"
+                android:background="@drawable/wenhu_photo" />
+
+            <TextView
+                android:id="@+id/wenhu_line"
+                android:layout_width="69dp"
+                android:layout_height="16dp"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="38dp"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="154dp"
+                android:text="@string/wenhu_line"
+                android:textAppearance="@style/Content"
+                android:gravity="center_horizontal|top" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/tamsui_xinyi"
+            android:layout_width="145dp"
+            android:layout_height="145dp"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="150dp"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/tamsui_xinyi">
+
+            <View
+                android:id="@+id/tamsui_xinyi_photo"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="12dp"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="14dp"
+                android:background="@drawable/tamsui_xinyi_photo" />
+
+            <TextView
+                android:id="@+id/tamsui_xinyi_line"
+                android:layout_width="69dp"
+                android:layout_height="16dp"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="38dp"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="154dp"
+                android:text="@string/tamsui_xinyi_line"
+                android:textAppearance="@style/Content"
+                android:gravity="center_horizontal|top" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/songshan_xindian"
+            android:layout_width="145dp"
+            android:layout_height="145dp"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="300dp"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/songshan_xindian">
+
+            <View
+                android:id="@+id/songshan_xindian_photo"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="12dp"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="14dp"
+                android:background="@drawable/songshan_xindian_photo" />
+
+            <TextView
+                android:id="@+id/songshan_xindian_line"
+                android:layout_width="69dp"
+                android:layout_height="16dp"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="38dp"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="154dp"
+                android:text="@string/songshan_xindian_line"
+                android:textAppearance="@style/Content"
+                android:gravity="center_horizontal|top" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/zhonghe_xinlu"
+            android:layout_width="145dp"
+            android:layout_height="145dp"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="450dp"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/zhonghe_xinlu">
+
+            <View
+                android:id="@+id/zhonghe_xinlu_photo"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="12dp"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="14dp"
+                android:background="@drawable/zhonghe_xinlu_photo" />
+
+            <TextView
+                android:id="@+id/zhonghe_xinlu_line"
+                android:layout_width="69dp"
+                android:layout_height="16dp"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="38dp"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="154dp"
+                android:text="@string/zhonghe_xinlu_line"
+                android:textAppearance="@style/Content"
+                android:gravity="center_horizontal|top" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/bannan"
+            android:layout_width="145dp"
+            android:layout_height="145dp"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="600dp"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/bannan">
+
+            <View
+                android:id="@+id/bannan_photo"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="12dp"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="14dp"
+                android:background="@drawable/bannan_photo" />
+
+            <TextView
+                android:id="@+id/bannan_line"
+                android:layout_width="69dp"
+                android:layout_height="16dp"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="38dp"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="154dp"
+                android:text="@string/bannan_line"
+                android:textAppearance="@style/Content"
+                android:gravity="center_horizontal|top" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/circular"
+            android:layout_width="145dp"
+            android:layout_height="145dp"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="750dp"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/circular">
+
+            <View
+                android:id="@+id/circular_photo"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="12dp"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="14dp"
+                android:background="@drawable/circular_photo" />
+
+            <TextView
+                android:id="@+id/circular_line"
+                android:layout_width="69dp"
+                android:layout_height="16dp"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="38dp"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="154dp"
+                android:text="@string/circular_line"
+                android:textAppearance="@style/Content"
+                android:gravity="center_horizontal|top" />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
