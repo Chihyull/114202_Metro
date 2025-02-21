@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+
+
+    <stroke
+        android:color="@color/sub"
+        android:width="2dp"/>
+
+
+    <!-- 可選圓角 -->
+    <corners android:radius="30dp" />
+
+    <!-- 背景設透明，這樣圖片才能顯示 -->
+    <solid android:color="@android:color/transparent" />
+
+</shape>
