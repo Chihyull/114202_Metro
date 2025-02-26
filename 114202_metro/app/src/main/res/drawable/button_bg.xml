@@ -1,5 +1,0 @@
-<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
-    <!-- 不要在這裡設置顏色，讓 backgroundTint 控制顏色 -->
-    <solid android:color="#fff"/>  <!-- 設置為透明顏色 -->
-    <corners android:radius="16dp"/>  <!-- 設定圓角 -->
-</shape>
