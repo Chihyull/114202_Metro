@@ -3,5 +3,7 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="background">#ECF5FF</color>
-    <color name="text_color">#003060</color>
+    <color name="transparent">#00000000</color>
+    <color name="text_color">#005AB5</color>
+    <color name="light_blue">#ACD6FF</color>
 </resources>
