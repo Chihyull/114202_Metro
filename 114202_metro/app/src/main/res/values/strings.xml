@@ -1,11 +1,24 @@
 <resources>
     <string name="app_name">114202_metro</string>
+
+    <!-- title -->
     <string name="title">Call202</string>
+    <string name="title_iti">My Itinerary</string>
+    <string name="title_itisetting">Itinerary Setting</string>
+
+    <!-- content -->
+    <string name="content2">Empty</string>
+    <string name="content3">Start Building your itinerary by saving
+    inspiring destinations and Experiences</string>
+    <string name="content_name">Itinerary Name</string>
+    <string name="content_date">Itinerary Date</string>
+
+    <!-- button -->
     <string name="login">Login</string>
-    <string name="stations">Stations</string>
-    <string name="routeplanning">RoutePlanning</string>
-    <string name="ai_planner">AI Planner</string>
-    <string name="metro_guiding">Metro Route</string>
+    <string name="btn_create">Create your Itinerary</string>
+    <string name="btn_ai">Chat with AI</string>
+    <string name="btn_confirm">Confirm</string>
+
     <string name="wenhu_line">Wenhu Line</string>
     <string name="tamsui_xinyi_line">Tamsui-Xinyi Line</string>
     <string name="songshan_xindian_line">Songshan-Xindian Line</string>

@@ -10,334 +10,41 @@
 
     <TextView
         android:id="@+id/title"
-        android:layout_width="140dp"
-        android:layout_height="38dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="50dp"
         android:gravity="top"
         android:text="@string/title"
-        android:textAppearance="@style/BigTitle"
+        android:textAppearance="@style/Title"
+        android:textSize="48sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         />
-
 
     <ImageView
         android:id="@+id/account"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_marginEnd="30dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginTop="50dp"
         android:src="@drawable/account_photo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <LinearLayout
+    <ImageView
         android:id="@+id/btn_login"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/button_login"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingStart="16dp"
-        android:paddingTop="8dp"
-        android:paddingEnd="16dp"
-        android:paddingBottom="8dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginTop="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/account">
-
-        <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_marginEnd="8dp"
-            android:src="@drawable/icon_google" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Login"
-            android:textAppearance="@style/Content" />
-    </LinearLayout>
-
-
-
-
-    <TextView
-        android:id="@+id/ai_planner"
-        android:layout_width="120dp"
+        android:layout_width="100dp"
         android:layout_height="30dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="20dp"
-        android:gravity="top"
-        android:text="@string/ai_planner"
-        android:textAppearance="@style/SubTitle"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/title"/>
-
-    <ImageButton
-        android:id="@+id/metro_explorer_map"
-        android:layout_width="match_parent"
-        android:layout_height="310dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginEnd="30dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/button_ai"
-        android:scaleType="centerCrop"
-        android:clipToOutline="true"
-        android:outlineProvider="background"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ai_planner" />
+        android:layout_marginTop="15dp"
+        android:src="@drawable/button_googlelogin"
+        app:layout_constraintTop_toBottomOf="@id/account"
+        app:layout_constraintStart_toStartOf="@id/account"
+        app:layout_constraintEnd_toEndOf="@id/account" />
 
 
-    <TextView
-        android:id="@+id/metro_guiding"
-        android:layout_width="140dp"
-        android:layout_height="30dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="10dp"
-        android:gravity="top"
-        android:text="@string/metro_guiding"
-        android:textAppearance="@style/SubTitle"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/metro_explorer_map"/>
 
-    <LinearLayout
-        android:id="@+id/list"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/metro_guiding">
 
-        <!-- 第一行 -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center"
-            >
-
-            <!-- 文湖 -->
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:gravity="center">
-
-                <androidx.cardview.widget.CardView
-                    android:layout_width="90dp"
-                    android:layout_height="90dp"
-                    app:cardCornerRadius="10dp"
-                    android:elevation="8dp"
-                    app:cardBackgroundColor="@color/brown">
-
-                    <FrameLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center">
-                        <ImageView
-                            android:layout_width="80dp"
-                            android:layout_height="80dp"
-                            android:src="@drawable/wenhu_photo"
-                            android:layout_gravity="center"/>
-                    </FrameLayout>
-                </androidx.cardview.widget.CardView>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_marginTop="2dp"
-                    android:text="@string/wenhu_line"
-                    android:textAppearance="@style/ContentNotBold"
-                    android:layout_height="15dp"/>
-            </LinearLayout>
-
-            <!-- 淡水信義 -->
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:gravity="center">
-
-                <androidx.cardview.widget.CardView
-                    android:layout_width="90dp"
-                    android:layout_height="90dp"
-                    app:cardCornerRadius="10dp"
-                    android:elevation="8dp"
-                    app:cardBackgroundColor="@color/red">
-
-                    <FrameLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center">
-                        <ImageView
-                            android:layout_width="100dp"
-                            android:layout_height="100dp"
-                            android:src="@drawable/tamsui_xinyi_photo"
-                            android:layout_gravity="center"/>
-                    </FrameLayout>
-                </androidx.cardview.widget.CardView>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_marginTop="2dp"
-                    android:text="@string/tamsui_xinyi_line"
-                    android:textAppearance="@style/ContentNotBold"
-                    android:layout_height="15dp"/>
-            </LinearLayout>
-
-            <!-- 松山新店 -->
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:gravity="center">
-
-                <androidx.cardview.widget.CardView
-                    android:layout_width="90dp"
-                    android:layout_height="90dp"
-                    app:cardCornerRadius="10dp"
-                    android:elevation="8dp"
-                    app:cardBackgroundColor="@color/green">
-
-                    <FrameLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center">
-                        <ImageView
-                            android:layout_width="80dp"
-                            android:layout_height="80dp"
-                            android:src="@drawable/songshan_xindian_photo"
-                            android:layout_gravity="center"/>
-                    </FrameLayout>
-                </androidx.cardview.widget.CardView>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_marginTop="2dp"
-                    android:text="@string/songshan_xindian_line"
-                    android:textAppearance="@style/ContentNotBold"
-                    android:layout_height="15dp"/>
-            </LinearLayout>
-        </LinearLayout>
-
-        <!-- 第二行 -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center">
-
-            <!-- 中和新盧 -->
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:gravity="center">
-
-                <androidx.cardview.widget.CardView
-                    android:layout_width="90dp"
-                    android:layout_height="90dp"
-                    app:cardCornerRadius="10dp"
-                    android:elevation="8dp"
-                    app:cardBackgroundColor="@color/orange">
-
-                    <FrameLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center">
-                        <ImageView
-                            android:layout_width="80dp"
-                            android:layout_height="80dp"
-                            android:src="@drawable/zhonghe_xinlu_photo"
-                            android:layout_gravity="center"/>
-                    </FrameLayout>
-                </androidx.cardview.widget.CardView>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_marginTop="2dp"
-                    android:text="@string/zhonghe_xinlu_line"
-                    android:textAppearance="@style/ContentNotBold"
-                    android:layout_height="15dp"/>
-            </LinearLayout>
-
-            <!-- 板南 -->
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:gravity="center">
-
-                <androidx.cardview.widget.CardView
-                    android:layout_width="90dp"
-                    android:layout_height="90dp"
-                    app:cardCornerRadius="10dp"
-                    android:elevation="8dp"
-                    app:cardBackgroundColor="@color/blue">
-
-                    <FrameLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center">
-                        <ImageView
-                            android:layout_width="80dp"
-                            android:layout_height="80dp"
-                            android:src="@drawable/bannan_photo"
-                            android:layout_gravity="center"/>
-                    </FrameLayout>
-                </androidx.cardview.widget.CardView>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_marginTop="2dp"
-                    android:text="@string/bannan_line"
-                    android:textAppearance="@style/ContentNotBold"
-                    android:layout_height="15dp"/>
-            </LinearLayout>
-
-            <!-- 環狀 -->
-            <LinearLayout android:orientation="vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:gravity="center">
-
-                <androidx.cardview.widget.CardView
-                    android:layout_width="90dp"
-                    android:layout_height="90dp"
-                    app:cardCornerRadius="10dp"
-                    android:elevation="8dp"
-                    app:cardBackgroundColor="@color/yellow">
-
-                    <FrameLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center">
-                        <ImageView
-                            android:layout_width="80dp"
-                            android:layout_height="80dp"
-                            android:src="@drawable/circular_photo"
-                            android:layout_gravity="center"/>
-                    </FrameLayout>
-                </androidx.cardview.widget.CardView>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_marginTop="2dp"
-                    android:text="@string/circular_line"
-                    android:textAppearance="@style/ContentNotBold"
-                    android:layout_height="15dp"/>
-            </LinearLayout>
-        </LinearLayout>
-    </LinearLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
