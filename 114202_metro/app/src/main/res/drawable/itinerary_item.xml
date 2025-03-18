@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 第二个图层是上半部分的黑色矩形，包含匯入的圖片和陰影 -->
+        <item android:id="@android:id/content"
+            android:width="160dp"
+            android:height="140dp">
+            <inset android:insetTop="0dp"
+                android:insetLeft="0dp"
+                android:insetRight="0dp">
+                <layer-list>
+                    <item>
+                        <shape android:shape="rectangle">
+                            <solid android:color="#000000" />
+                            <corners android:topLeftRadius="10dp"
+                                android:topRightRadius="10dp" />
+                        </shape>
+                    </item>
+                </layer-list>
+            </inset>
+        </item>
+</selector>
