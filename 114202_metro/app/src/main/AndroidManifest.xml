@@ -16,6 +16,9 @@
         android:theme="@style/Theme._114202_metro"
         tools:targetApi="31">
         <activity
+            android:name=".SettingActivity"
+            android:exported="false" />
+        <activity
             android:name=".TestActivity"
             android:exported="true" />
         <activity
