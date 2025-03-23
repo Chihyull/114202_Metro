@@ -20,6 +20,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.a114202_metro.Itinerary.Itinerary;
 import com.example.a114202_metro.Itinerary.ItinerarySetting;
+import com.example.a114202_metro.Station.Station;
 import com.google.android.gms.auth.api.signin.*;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
@@ -37,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageView btn_login;
     private ImageView accountImg;
     private ImageView itineraryImg;
+    private ImageView stationImg;
 
     private final ActivityResultLauncher<Intent> settingLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
@@ -68,12 +70,13 @@ public class MainActivity extends AppCompatActivity {
         btn_login = findViewById(R.id.btn_login);
         accountImg = findViewById(R.id.accountImg);
         itineraryImg = findViewById(R.id.itineraryImg);
+        stationImg = findViewById(R.id.stationImg);
 
-        //開啟ItineraryActivity
-        itineraryImg.setOnClickListener(new View.OnClickListener() {
+        //開啟StationActivity
+        stationImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, Itinerary.class);
+                Intent intent = new Intent(MainActivity.this, Station.class);
                 startActivity(intent);
             }
         });

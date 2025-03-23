@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -15,18 +17,19 @@
         android:supportsRtl="true"
         android:theme="@style/Theme._114202_metro"
         tools:targetApi="31">
+
+        <activity
+            android:name=".Station.Station"
+            android:exported="false" />
         <activity
             android:name=".SettingActivity"
             android:exported="false" />
         <activity
-            android:name=".TestActivity"
-            android:exported="true" />
-        <activity
             android:name=".Itinerary.ItinerarySetting"
-            android:exported="true" />
+            android:exported="false" />
         <activity
             android:name=".Itinerary.Itinerary"
-            android:exported="true" />
+            android:exported="false" />
         <activity
             android:name=".MainActivity"
             android:exported="true">
