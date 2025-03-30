@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- 設定按鈕的顏色 -->
+    <item android:state_enabled="true" android:color="#fff"/> <!-- 顏色1 -->
+    <item android:color="#ECD5C1"/> <!-- 顏色2 -->
+    <item android:color="#CEF4BB"/> <!-- 顏色3 -->
+    <item android:color="#FEDEC0"/> <!-- 顏色4 -->
+    <item android:color="#BEE1E6"/> <!-- 顏色5 -->
+    <item android:color="#FFF1BA"/> <!-- 顏色6 -->
+    <item android:color="#FFF1BA"/> <!-- 顏色7 -->
+
+</selector>
