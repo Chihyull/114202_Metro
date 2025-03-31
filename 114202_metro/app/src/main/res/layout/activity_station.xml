@@ -7,6 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".Station.Station">
 
+<!-- 新增各線TextVIew-->
     <TextView
         android:id="@+id/stationTitle"
         android:layout_width="match_parent"
@@ -55,9 +56,6 @@
         </androidx.core.widget.NestedScrollView>
 
 
-
     </RelativeLayout>
-
-
 
 </RelativeLayout>
