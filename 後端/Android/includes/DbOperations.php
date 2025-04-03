@@ -14,8 +14,28 @@
 		}
 
 
-		/* user register */
 
+		/* get Metro stations */
+		public function getStations($lineCode = null) {
+			if ($lineCode) {
+				$stmt = $this->con->prepare("SELECT StationCode, Station AS NameE, Line, LineCode FROM metro.v_line_station ORDER BY StationCode");
+				$stmt->bind_param("s", $lineCode);
+			} else {
+				$stmt = $this->con->prepare("SELECT StationCode, Station AS NameE, Line, LineCode FROM metro.v_line_station ORDER BY StationCode");
+			}
+		
+			$stmt->execute();
+			$result = $stmt->get_result();
+		
+			$stations = [];
+			while ($row = $result->fetch_assoc()) {
+				$stations[] = $row;
+			}
+		
+			return $stations;
+		}			
+
+		/* user register */
 		public function registerUser($gmail) {
 			$stmt = $this->con->prepare("INSERT INTO metro.user_login (UserNo, Gmail, IsStop, CreateTime) VALUES (Null, ?, 'N', NOW())");
 		
@@ -27,19 +47,5 @@
 				return 0; // 失敗（可能是已存在或其他錯誤）
 			}
 		}	
-		
-		/* get Metro stations */
-		public function getStations() {
-			$stmt = $this->con->prepare("SELECT StationCode, Station AS NameE, Line FROM metro.v_line_station ORDER BY StationCode");
-			$stmt->execute();
-			$result = $stmt->get_result();
-		
-			$stations = [];
-			while ($row = $result->fetch_assoc()) {
-				$stations[] = $row;
-			}
-		
-			return $stations;
-		}					
 	
 	}

@@ -1,0 +1,21 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="8dp"
+    android:orientation="horizontal"
+    android:gravity="center"
+    android:background="@drawable/custom_btn"
+    android:layout_margin="4dp">
+
+    <TextView
+        android:id="@+id/tv_line_code"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/ContentNotBold"
+        android:text="XX"
+        android:textColor="@color/main"
+        android:textSize="16sp"
+        android:gravity="center" />
+
+</LinearLayout>

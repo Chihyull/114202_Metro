@@ -1,15 +1,16 @@
 package com.example.a114202_metro.Station;
 
 public class StationModel {
-
     private String StationCode;
     private String NameE;
-    private String Line;  // 新增欄位
+    private String Line;       // 線名
+    private String LineCode;   // 線代碼
 
-    public StationModel(String stationCode, String nameE, String line) {
+    public StationModel(String stationCode, String nameE, String line, String lineCode) {
         StationCode = stationCode;
         NameE = nameE;
         Line = line;
+        LineCode = lineCode;
     }
 
     public String getStationCode() {
@@ -22,6 +23,10 @@ public class StationModel {
 
     public String getLine() {
         return Line;
+    }
+
+    public String getLineCode() {
+        return LineCode;
     }
 }
 

@@ -49,7 +49,7 @@
         android:layout_width="100dp"
         android:layout_height="30dp"
         android:layout_marginTop="15dp"
-        android:src="@drawable/button_login"
+        android:src="@drawable/button_googlelogin"
         app:layout_constraintTop_toBottomOf="@id/accountImg"
         app:layout_constraintStart_toStartOf="@id/accountImg"
         app:layout_constraintEnd_toEndOf="@id/accountImg" />

@@ -19,15 +19,21 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class Station extends AppCompatActivity {
 
-    private TextView stationTitle;
-    private RecyclerView rvStation;
-    private StationAdapter stationAdapter;
     private List<StationModel> stationList;
+    private List<LineModel> lineList;
+    private Set<String> lineCodeSet;
+    private RecyclerView rvLineCodes, rvStation;
+    private TextView stationTitle;
+    private StationAdapter stationAdapter;
+    private LineAdapter lineAdapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -35,22 +41,45 @@ public class Station extends AppCompatActivity {
         setContentView(R.layout.activity_station);
 
         stationTitle = findViewById(R.id.stationTitle);
-
+        rvLineCodes = findViewById(R.id.rv_line_codes);
         rvStation = findViewById(R.id.rv_station);
+
+        rvLineCodes.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         rvStation.setLayoutManager(new LinearLayoutManager(this));
 
         stationList = new ArrayList<>();
+        lineList = new ArrayList<>();
+        lineCodeSet = new HashSet<>();
+
         stationAdapter = new StationAdapter(stationList);
         rvStation.setAdapter(stationAdapter);
 
-        new GetStationsTask().execute();
+        lineAdapter = new LineAdapter(lineList, lineCode -> {
+            // 點擊 lineCode 後，重新抓該線站點並顯示
+            new GetStationsTask(lineCode).execute();
+        });
+        rvLineCodes.setAdapter(lineAdapter);
+
+        // 一開始抓所有站點，並初始化 lineList
+        new GetStationsTask(null).execute();
+
     }
 
     private class GetStationsTask extends AsyncTask<Void, Void, String> {
+        private String selectedLineCode;
+
+        public GetStationsTask(String selectedLineCode) {
+            this.selectedLineCode = selectedLineCode;
+        }
+
         @Override
         protected String doInBackground(Void... voids) {
             try {
-                URL url = new URL(Constants.URL_GET_STATIONS);
+                String urlStr = Constants.URL_GET_STATIONS;
+                if (selectedLineCode != null) {
+                    urlStr += "?lineCode=" + URLEncoder.encode(selectedLineCode, "UTF-8");
+                }
+                URL url = new URL(urlStr);
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setRequestMethod("GET");
 
@@ -78,22 +107,42 @@ public class Station extends AppCompatActivity {
                     JSONArray jsonArray = new JSONArray(json);
                     stationList.clear();
 
-                    String lineName = "";
-
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject obj = jsonArray.getJSONObject(i);
                         String stationCode = obj.getString("StationCode");
                         String nameE = obj.getString("NameE");
                         String line = obj.getString("Line");
+                        String lineCode = obj.getString("LineCode");
 
-                        if (i == 0) {
-                            lineName = line;
-                        }
-
-                        stationList.add(new StationModel(stationCode, nameE, line));
+                        stationList.add(new StationModel(stationCode, nameE, line, lineCode));
                     }
 
-                    stationTitle.setText(lineName); // 設定標題
+                    // 抽出唯一的 LineCode 及 Line 名稱
+                    if (selectedLineCode == null) {
+                        // 只在第一次（全部資料）時整理 lineList
+                        lineList.clear();
+                        lineCodeSet.clear();
+
+                        for (StationModel s : stationList) {
+                            if (!lineCodeSet.contains(s.getLineCode())) {
+                                lineCodeSet.add(s.getLineCode());
+                                lineList.add(new LineModel(s.getLineCode()));
+                            }
+                        }
+
+                        lineAdapter.notifyDataSetChanged();
+
+                        // 預設標題為第一筆站點的線名
+                        if (!stationList.isEmpty()) {
+                            stationTitle.setText(stationList.get(0).getLine());
+                        }
+                    } else {
+                        // 選擇特定線時，標題改成該線名稱 (stationList 全是同一線)
+                        if (!stationList.isEmpty()) {
+                            stationTitle.setText(stationList.get(0).getLine());
+                        }
+                    }
+
                     stationAdapter.notifyDataSetChanged();
 
                 } catch (Exception e) {
@@ -104,4 +153,5 @@ public class Station extends AppCompatActivity {
             }
         }
     }
+
 }

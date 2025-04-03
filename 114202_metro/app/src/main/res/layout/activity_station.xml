@@ -7,7 +7,6 @@
     android:layout_height="match_parent"
     tools:context=".Station.Station">
 
-<!-- 新增各線TextVIew-->
     <TextView
         android:id="@+id/stationTitle"
         android:layout_width="match_parent"
@@ -20,6 +19,18 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_line_codes"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@id/filter_station"
+        android:layout_marginTop="10dp"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:scrollbars="horizontal"
+        />
+
 
     <EditText
         android:id="@+id/filter_station"
@@ -37,7 +48,7 @@
 
     <RelativeLayout
         android:id="@+id/layout_content"
-        android:layout_below="@+id/filter_station"
+        android:layout_below="@+id/rv_line_codes"
         android:layout_margin="5dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
