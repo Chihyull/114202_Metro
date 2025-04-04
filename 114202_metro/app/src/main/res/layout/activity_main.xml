@@ -79,12 +79,11 @@
     <ImageButton
         android:id="@+id/metro_explorer_map"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="310dp"
         android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp"
         android:layout_marginTop="20dp"
         android:background="@drawable/button_ai"
-        android:src="@drawable/button_rec"
         android:scaleType="centerCrop"
         android:clipToOutline="true"
         android:outlineProvider="background"
