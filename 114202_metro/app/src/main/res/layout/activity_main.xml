@@ -7,14 +7,13 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+
     <TextView
         android:id="@+id/title"
-        android:layout_width="120dp"
+        android:layout_width="140dp"
         android:layout_height="38dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="20dp"
         android:gravity="top"
         android:text="@string/title"
         android:textAppearance="@style/BigTitle"
@@ -22,396 +21,324 @@
         app:layout_constraintTop_toTopOf="parent"
         />
 
-    <RelativeLayout
-        android:id="@+id/google_login"
-        android:layout_width="68dp"
-        android:layout_height="25dp"
-        android:layout_marginTop="119dp"
-        android:layout_marginEnd="21dp"
-        android:background="@drawable/google_login"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <RelativeLayout
-            android:id="@+id/icon_google"
-            android:layout_width="12dp"
-            android:layout_height="12dp"
-            android:layout_marginStart="9dp"
-            android:layout_marginTop="6.5dp"
-            android:background="@drawable/icon_google"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/login"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="26dp"
-            android:layout_marginTop="4.5dp"
-            android:gravity="top"
-            android:text="@string/login"
-            android:textAppearance="@style/ContentNotBold" />
-    </RelativeLayout>
 
     <ImageView
-        android:id="@+id/account_photo"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="30dp"
-        android:layout_marginEnd="5dp"
-        android:background="@drawable/account_photo"
-        android:clipToOutline="true"
+        android:id="@+id/account"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/account_photo"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="MissingConstraints">
-
-    </ImageView>
-
-    <TextView
-        android:id="@+id/my_favorite"
-        android:layout_width="140dp"
-        android:layout_height="30dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="119dp"
-        android:gravity="top"
-        android:text="@string/my_favorite"
-        android:textAppearance="@style/SubTitle"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <RelativeLayout
+    <LinearLayout
+        android:id="@+id/btn_login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button_login"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="16dp"
+        android:paddingTop="8dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="8dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/account">
 
-        android:id="@+id/my_favorite_"
-        android:layout_width="323dp"
-        android:layout_height="45dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="44dp"
-        android:layout_marginTop="169dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginEnd="8dp"
+            android:src="@drawable/icon_google" />
 
-        <RelativeLayout
-            android:id="@+id/station_rectangle_8"
-            android:layout_width="153dp"
-            android:layout_height="45dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:background="@drawable/rectangle_8">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Login"
+            android:textAppearance="@style/Content" />
+    </LinearLayout>
 
-            <RelativeLayout
-                android:id="@+id/icon_stations"
-                android:layout_width="28dp"
-                android:layout_height="28dp"
-                android:layout_alignParentStart="true"
-                android:layout_marginStart="22dp"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/icon_stations"
-                android:clipToOutline="true"
-                tools:layout_alignParentTop="true" />
 
-            <TextView
-                android:id="@+id/stations"
-                android:layout_width="57.87dp"
-                android:layout_height="16dp"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginStart="65dp"
-                android:layout_marginTop="15dp"
-                android:gravity="top"
-                android:text="@string/stations"
-                android:textAppearance="@style/ContentNotBold" />
 
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/routeplanning_rectangle_8"
-            android:layout_width="153dp"
-            android:layout_height="45dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="170dp"
-            android:background="@drawable/rectangle_8">
-
-            <RelativeLayout
-                android:id="@+id/icon_routeplanning"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/icon_routeplanning"
-                android:clipToOutline="true" />
-
-            <TextView
-                android:id="@+id/routeplanning"
-                android:layout_width="104dp"
-                android:layout_height="16dp"
-                android:layout_marginStart="55dp"
-                android:layout_marginTop="15dp"
-                android:gravity="top"
-                android:text="@string/routeplanning"
-                android:textAppearance="@style/ContentNotBold" />
-
-        </RelativeLayout>
-
-    </RelativeLayout>
 
     <TextView
-        android:id="@+id/metro_explorer"
-        android:layout_width="169dp"
+        android:id="@+id/ai_planner"
+        android:layout_width="120dp"
         android:layout_height="30dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
         android:layout_marginStart="30dp"
-        android:layout_marginTop="234dp"
+        android:layout_marginTop="20dp"
         android:gravity="top"
-        android:text="@string/metro_explore"
+        android:text="@string/ai_planner"
         android:textAppearance="@style/SubTitle"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/title"/>
 
-    <View
+    <ImageButton
         android:id="@+id/metro_explorer_map"
-        android:layout_width="350dp"
-        android:layout_height="315dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="31dp"
-        android:layout_marginTop="281dp"
-        android:background="@drawable/metro_map"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/button_ai"
+        android:src="@drawable/button_rec"
+        android:scaleType="centerCrop"
+        android:clipToOutline="true"
+        android:outlineProvider="background"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/ai_planner" />
+
 
     <TextView
         android:id="@+id/metro_guiding"
-        android:layout_width="158dp"
+        android:layout_width="140dp"
         android:layout_height="30dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
         android:layout_marginStart="30dp"
-        android:layout_marginTop="621dp"
+        android:layout_marginTop="10dp"
         android:gravity="top"
         android:text="@string/metro_guiding"
         android:textAppearance="@style/SubTitle"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/metro_explorer_map"/>
 
-    <RelativeLayout
-        android:id="@+id/metro_guiding_"
-        android:layout_width="956dp"
-        android:layout_height="171dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="661dp"
+    <LinearLayout
+        android:id="@+id/list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" >
+        app:layout_constraintTop_toBottomOf="@id/metro_guiding">
 
-        <RelativeLayout
-            android:id="@+id/wenhu"
-            android:layout_width="145dp"
-            android:layout_height="145dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:background="@drawable/wenhu">
+        <!-- 第一行 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            >
 
-            <View
-                android:id="@+id/wenhu_photo"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
-                android:layout_alignParentStart="true"
-                android:layout_marginStart="12dp"
-                android:layout_alignParentTop="true"
-                android:layout_marginTop="14dp"
-                android:background="@drawable/wenhu_photo" />
+            <!-- 文湖 -->
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:gravity="center">
 
-            <TextView
-                android:id="@+id/wenhu_line"
-                android:layout_width="69dp"
-                android:layout_height="16dp"
-                android:layout_alignParentStart="true"
-                android:layout_marginStart="38dp"
-                android:layout_alignParentTop="true"
-                android:layout_marginTop="154dp"
-                android:text="@string/wenhu_line"
-                android:textAppearance="@style/Content"
-                android:gravity="center_horizontal|top" />
+                <androidx.cardview.widget.CardView
+                    android:layout_width="90dp"
+                    android:layout_height="90dp"
+                    app:cardCornerRadius="10dp"
+                    android:elevation="8dp"
+                    app:cardBackgroundColor="@color/brown">
 
-        </RelativeLayout>
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center">
+                        <ImageView
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:src="@drawable/wenhu_photo"
+                            android:layout_gravity="center"/>
+                    </FrameLayout>
+                </androidx.cardview.widget.CardView>
 
-        <RelativeLayout
-            android:id="@+id/tamsui_xinyi"
-            android:layout_width="145dp"
-            android:layout_height="145dp"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="150dp"
-            android:layout_alignParentTop="true"
-            android:background="@drawable/tamsui_xinyi">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="@string/wenhu_line"
+                    android:textAppearance="@style/ContentNotBold"
+                    android:layout_height="15dp"/>
+            </LinearLayout>
 
-            <View
-                android:id="@+id/tamsui_xinyi_photo"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
-                android:layout_alignParentStart="true"
-                android:layout_marginStart="12dp"
-                android:layout_alignParentTop="true"
-                android:layout_marginTop="14dp"
-                android:background="@drawable/tamsui_xinyi_photo" />
+            <!-- 淡水信義 -->
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:gravity="center">
 
-            <TextView
-                android:id="@+id/tamsui_xinyi_line"
-                android:layout_width="69dp"
-                android:layout_height="16dp"
-                android:layout_alignParentStart="true"
-                android:layout_marginStart="38dp"
-                android:layout_alignParentTop="true"
-                android:layout_marginTop="154dp"
-                android:text="@string/tamsui_xinyi_line"
-                android:textAppearance="@style/Content"
-                android:gravity="center_horizontal|top" />
+                <androidx.cardview.widget.CardView
+                    android:layout_width="90dp"
+                    android:layout_height="90dp"
+                    app:cardCornerRadius="10dp"
+                    android:elevation="8dp"
+                    app:cardBackgroundColor="@color/red">
 
-        </RelativeLayout>
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center">
+                        <ImageView
+                            android:layout_width="100dp"
+                            android:layout_height="100dp"
+                            android:src="@drawable/tamsui_xinyi_photo"
+                            android:layout_gravity="center"/>
+                    </FrameLayout>
+                </androidx.cardview.widget.CardView>
 
-        <RelativeLayout
-            android:id="@+id/songshan_xindian"
-            android:layout_width="145dp"
-            android:layout_height="145dp"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="300dp"
-            android:layout_alignParentTop="true"
-            android:background="@drawable/songshan_xindian">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="@string/tamsui_xinyi_line"
+                    android:textAppearance="@style/ContentNotBold"
+                    android:layout_height="15dp"/>
+            </LinearLayout>
 
-            <View
-                android:id="@+id/songshan_xindian_photo"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
-                android:layout_alignParentStart="true"
-                android:layout_marginStart="12dp"
-                android:layout_alignParentTop="true"
-                android:layout_marginTop="14dp"
-                android:background="@drawable/songshan_xindian_photo" />
+            <!-- 松山新店 -->
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:gravity="center">
 
-            <TextView
-                android:id="@+id/songshan_xindian_line"
-                android:layout_width="69dp"
-                android:layout_height="16dp"
-                android:layout_alignParentStart="true"
-                android:layout_marginStart="38dp"
-                android:layout_alignParentTop="true"
-                android:layout_marginTop="154dp"
-                android:text="@string/songshan_xindian_line"
-                android:textAppearance="@style/Content"
-                android:gravity="center_horizontal|top" />
+                <androidx.cardview.widget.CardView
+                    android:layout_width="90dp"
+                    android:layout_height="90dp"
+                    app:cardCornerRadius="10dp"
+                    android:elevation="8dp"
+                    app:cardBackgroundColor="@color/green">
 
-        </RelativeLayout>
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center">
+                        <ImageView
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:src="@drawable/songshan_xindian_photo"
+                            android:layout_gravity="center"/>
+                    </FrameLayout>
+                </androidx.cardview.widget.CardView>
 
-        <RelativeLayout
-            android:id="@+id/zhonghe_xinlu"
-            android:layout_width="145dp"
-            android:layout_height="145dp"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="450dp"
-            android:layout_alignParentTop="true"
-            android:background="@drawable/zhonghe_xinlu">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="@string/songshan_xindian_line"
+                    android:textAppearance="@style/ContentNotBold"
+                    android:layout_height="15dp"/>
+            </LinearLayout>
+        </LinearLayout>
 
-            <View
-                android:id="@+id/zhonghe_xinlu_photo"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
-                android:layout_alignParentStart="true"
-                android:layout_marginStart="12dp"
-                android:layout_alignParentTop="true"
-                android:layout_marginTop="14dp"
-                android:background="@drawable/zhonghe_xinlu_photo" />
+        <!-- 第二行 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
 
-            <TextView
-                android:id="@+id/zhonghe_xinlu_line"
-                android:layout_width="69dp"
-                android:layout_height="16dp"
-                android:layout_alignParentStart="true"
-                android:layout_marginStart="38dp"
-                android:layout_alignParentTop="true"
-                android:layout_marginTop="154dp"
-                android:text="@string/zhonghe_xinlu_line"
-                android:textAppearance="@style/Content"
-                android:gravity="center_horizontal|top" />
+            <!-- 中和新盧 -->
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:gravity="center">
 
-        </RelativeLayout>
+                <androidx.cardview.widget.CardView
+                    android:layout_width="90dp"
+                    android:layout_height="90dp"
+                    app:cardCornerRadius="10dp"
+                    android:elevation="8dp"
+                    app:cardBackgroundColor="@color/orange">
 
-        <RelativeLayout
-            android:id="@+id/bannan"
-            android:layout_width="145dp"
-            android:layout_height="145dp"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="600dp"
-            android:layout_alignParentTop="true"
-            android:background="@drawable/bannan">
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center">
+                        <ImageView
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:src="@drawable/zhonghe_xinlu_photo"
+                            android:layout_gravity="center"/>
+                    </FrameLayout>
+                </androidx.cardview.widget.CardView>
 
-            <View
-                android:id="@+id/bannan_photo"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
-                android:layout_alignParentStart="true"
-                android:layout_marginStart="12dp"
-                android:layout_alignParentTop="true"
-                android:layout_marginTop="14dp"
-                android:background="@drawable/bannan_photo" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="@string/zhonghe_xinlu_line"
+                    android:textAppearance="@style/ContentNotBold"
+                    android:layout_height="15dp"/>
+            </LinearLayout>
 
-            <TextView
-                android:id="@+id/bannan_line"
-                android:layout_width="69dp"
-                android:layout_height="16dp"
-                android:layout_alignParentStart="true"
-                android:layout_marginStart="38dp"
-                android:layout_alignParentTop="true"
-                android:layout_marginTop="154dp"
-                android:text="@string/bannan_line"
-                android:textAppearance="@style/Content"
-                android:gravity="center_horizontal|top" />
+            <!-- 板南 -->
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:gravity="center">
 
-        </RelativeLayout>
+                <androidx.cardview.widget.CardView
+                    android:layout_width="90dp"
+                    android:layout_height="90dp"
+                    app:cardCornerRadius="10dp"
+                    android:elevation="8dp"
+                    app:cardBackgroundColor="@color/blue">
 
-        <RelativeLayout
-            android:id="@+id/circular"
-            android:layout_width="145dp"
-            android:layout_height="145dp"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="750dp"
-            android:layout_alignParentTop="true"
-            android:background="@drawable/circular">
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center">
+                        <ImageView
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:src="@drawable/bannan_photo"
+                            android:layout_gravity="center"/>
+                    </FrameLayout>
+                </androidx.cardview.widget.CardView>
 
-            <View
-                android:id="@+id/circular_photo"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
-                android:layout_alignParentStart="true"
-                android:layout_marginStart="12dp"
-                android:layout_alignParentTop="true"
-                android:layout_marginTop="14dp"
-                android:background="@drawable/circular_photo" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="@string/bannan_line"
+                    android:textAppearance="@style/ContentNotBold"
+                    android:layout_height="15dp"/>
+            </LinearLayout>
 
-            <TextView
-                android:id="@+id/circular_line"
-                android:layout_width="69dp"
-                android:layout_height="16dp"
-                android:layout_alignParentStart="true"
-                android:layout_marginStart="38dp"
-                android:layout_alignParentTop="true"
-                android:layout_marginTop="154dp"
-                android:text="@string/circular_line"
-                android:textAppearance="@style/Content"
-                android:gravity="center_horizontal|top" />
+            <!-- 環狀 -->
+            <LinearLayout android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:gravity="center">
 
-        </RelativeLayout>
+                <androidx.cardview.widget.CardView
+                    android:layout_width="90dp"
+                    android:layout_height="90dp"
+                    app:cardCornerRadius="10dp"
+                    android:elevation="8dp"
+                    app:cardBackgroundColor="@color/yellow">
 
-    </RelativeLayout>
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center">
+                        <ImageView
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:src="@drawable/circular_photo"
+                            android:layout_gravity="center"/>
+                    </FrameLayout>
+                </androidx.cardview.widget.CardView>
 
-
-
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="@string/circular_line"
+                    android:textAppearance="@style/ContentNotBold"
+                    android:layout_height="15dp"/>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
