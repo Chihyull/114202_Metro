@@ -2,6 +2,8 @@ package com.example.a114202_metro.Station;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -34,12 +36,14 @@ public class Station extends AppCompatActivity {
     private TextView stationTitle;
     private StationAdapter stationAdapter;
     private LineAdapter lineAdapter;
+    private EditText editText;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_station);
 
+        editText = findViewById(R.id.filter_station); // 放在這
         stationTitle = findViewById(R.id.stationTitle);
         rvLineCodes = findViewById(R.id.rv_line_codes);
         rvStation = findViewById(R.id.rv_station);
@@ -54,6 +58,18 @@ public class Station extends AppCompatActivity {
         stationAdapter = new StationAdapter(stationList);
         rvStation.setAdapter(stationAdapter);
 
+        // 加入搜尋功能
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                stationAdapter.getFilter().filter(s);  // 正確寫法
+            }
+
+            @Override public void afterTextChanged(Editable s) { }
+        });
+
         lineAdapter = new LineAdapter(lineList, lineCode -> {
             // 點擊 lineCode 後，重新抓該線站點並顯示
             new GetStationsTask(lineCode).execute();
@@ -62,7 +78,6 @@ public class Station extends AppCompatActivity {
 
         // 一開始抓所有站點，並初始化 lineList
         new GetStationsTask(null).execute();
-
     }
 
     private class GetStationsTask extends AsyncTask<Void, Void, String> {
@@ -117,32 +132,26 @@ public class Station extends AppCompatActivity {
                         stationList.add(new StationModel(stationCode, nameE, line, lineCode));
                     }
 
-                    // 抽出唯一的 LineCode 及 Line 名稱
                     if (selectedLineCode == null) {
-                        // 只在第一次（全部資料）時整理 lineList
                         lineList.clear();
                         lineCodeSet.clear();
-
                         for (StationModel s : stationList) {
                             if (!lineCodeSet.contains(s.getLineCode())) {
                                 lineCodeSet.add(s.getLineCode());
                                 lineList.add(new LineModel(s.getLineCode()));
                             }
                         }
-
                         lineAdapter.notifyDataSetChanged();
-
-                        // 預設標題為第一筆站點的線名
                         if (!stationList.isEmpty()) {
                             stationTitle.setText(stationList.get(0).getLine());
                         }
                     } else {
-                        // 選擇特定線時，標題改成該線名稱 (stationList 全是同一線)
                         if (!stationList.isEmpty()) {
                             stationTitle.setText(stationList.get(0).getLine());
                         }
                     }
 
+                    stationAdapter.setFilteredList(stationList); // 更新原始資料與過濾用資料
                     stationAdapter.notifyDataSetChanged();
 
                 } catch (Exception e) {
@@ -153,5 +162,5 @@ public class Station extends AppCompatActivity {
             }
         }
     }
-
 }
+

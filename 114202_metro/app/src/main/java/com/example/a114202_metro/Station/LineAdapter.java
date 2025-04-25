@@ -16,6 +16,7 @@ public class LineAdapter extends RecyclerView.Adapter<LineAdapter.LineViewHolder
 
     private List<LineModel> lineList;
     private OnLineClickListener listener;
+    private String selectedLineCode = "BR";  // 預設選中 Wenhu Line
 
     public interface OnLineClickListener {
         void onLineClick(String lineCode);
@@ -38,7 +39,19 @@ public class LineAdapter extends RecyclerView.Adapter<LineAdapter.LineViewHolder
     public void onBindViewHolder(@NonNull LineViewHolder holder, int position) {
         String code = lineList.get(position).getLineCode();
         holder.tvLineCode.setText(code);
-        holder.itemView.setOnClickListener(v -> listener.onLineClick(code));
+
+        // 根據是否選中設定狀態
+        boolean isSelected = code.equals(selectedLineCode);
+        holder.tvLineCode.setSelected(isSelected);
+
+        // 點擊處理：更新選中狀態 + 通知外部 + 刷新畫面
+        holder.itemView.setOnClickListener(v -> {
+            if (!code.equals(selectedLineCode)) {
+                selectedLineCode = code;
+                notifyDataSetChanged(); // 重新繪製所有 item
+                listener.onLineClick(code); // 通知外部
+            }
+        });
     }
 
     @Override
