@@ -43,7 +43,7 @@ public class Station extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_station);
 
-        editText = findViewById(R.id.filter_station); // 放在這
+        editText = findViewById(R.id.filter_station);
         stationTitle = findViewById(R.id.stationTitle);
         rvLineCodes = findViewById(R.id.rv_line_codes);
         rvStation = findViewById(R.id.rv_station);
@@ -58,25 +58,23 @@ public class Station extends AppCompatActivity {
         stationAdapter = new StationAdapter(stationList);
         rvStation.setAdapter(stationAdapter);
 
-        // 加入搜尋功能
+        // 搜尋功能
         editText.addTextChangedListener(new TextWatcher() {
             @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
-
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                stationAdapter.getFilter().filter(s);  // 正確寫法
+                stationAdapter.getFilter().filter(s);
             }
-
             @Override public void afterTextChanged(Editable s) { }
         });
 
+        // 點擊線路代碼，呼叫抓取該線站點
         lineAdapter = new LineAdapter(lineList, lineCode -> {
-            // 點擊 lineCode 後，重新抓該線站點並顯示
             new GetStationsTask(lineCode).execute();
         });
         rvLineCodes.setAdapter(lineAdapter);
 
-        // 一開始抓所有站點，並初始化 lineList
+        // 預設載入全部站點並初始化線路列表
         new GetStationsTask(null).execute();
     }
 
@@ -132,9 +130,11 @@ public class Station extends AppCompatActivity {
                         stationList.add(new StationModel(stationCode, nameE, line, lineCode));
                     }
 
+                    // 如果 selectedLineCode 是 null，代表是載入全部，初始化 lineList
                     if (selectedLineCode == null) {
                         lineList.clear();
                         lineCodeSet.clear();
+
                         for (StationModel s : stationList) {
                             if (!lineCodeSet.contains(s.getLineCode())) {
                                 lineCodeSet.add(s.getLineCode());
@@ -142,16 +142,17 @@ public class Station extends AppCompatActivity {
                             }
                         }
                         lineAdapter.notifyDataSetChanged();
-                        if (!stationList.isEmpty()) {
-                            stationTitle.setText(stationList.get(0).getLine());
-                        }
-                    } else {
-                        if (!stationList.isEmpty()) {
-                            stationTitle.setText(stationList.get(0).getLine());
-                        }
                     }
 
-                    stationAdapter.setFilteredList(stationList); // 更新原始資料與過濾用資料
+                    // 設定標題為第一筆資料的 line 字段 (如果有資料)
+                    if (!stationList.isEmpty()) {
+                        stationTitle.setText(stationList.get(0).getLine());
+                    } else {
+                        stationTitle.setText("無資料");
+                    }
+
+                    // 更新 Adapter 內資料並刷新列表
+                    stationAdapter.setFilteredList(new ArrayList<>(stationList));  // 建議複製一份給 Adapter
                     stationAdapter.notifyDataSetChanged();
 
                 } catch (Exception e) {
@@ -163,4 +164,5 @@ public class Station extends AppCompatActivity {
         }
     }
 }
+
 

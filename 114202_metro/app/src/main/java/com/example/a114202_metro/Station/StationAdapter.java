@@ -12,6 +12,8 @@ import com.example.a114202_metro.R;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class StationAdapter extends RecyclerView.Adapter<StationAdapter.StationViewHolder> implements Filterable {
 
@@ -34,14 +36,27 @@ public class StationAdapter extends RecyclerView.Adapter<StationAdapter.StationV
     public void onBindViewHolder(@NonNull StationViewHolder holder, int position) {
         StationModel station = stationList.get(position);
 
-        String fullStationCode = station.getStationCode(); // 例如 BR01
-        String lineCode = fullStationCode.substring(0, 2);  // BR
-        String stationCode = fullStationCode.substring(2);  // 01
+        String fullStationCode = station.getStationCode(); // 例如 BR01 或 R01
+        String lineCode = "";
+        String stationCode = "";
+
+        // 使用正規表達式分離英文字母與數字
+        Pattern pattern = Pattern.compile("([A-Z]+)([0-9]+)");
+        Matcher matcher = pattern.matcher(fullStationCode);
+        if (matcher.matches()) {
+            lineCode = matcher.group(1);     // 取得英文字母部分，例如 "BR" 或 "R"
+            stationCode = matcher.group(2);  // 取得數字部分，例如 "01"
+        } else {
+            // 若格式不符，可視需求處理，或顯示原始內容
+            lineCode = fullStationCode;
+            stationCode = "";
+        }
 
         holder.lineCode.setText(lineCode);
         holder.stationCode.setText(stationCode);
         holder.stationName.setText(station.getNameE());
     }
+
 
     @Override
     public int getItemCount() {
