@@ -1,35 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="BigTitle">
-        <item name="android:textSize">36sp</item>
-        <item name="android:textColor">#3D405B</item>
+    <!-- text -->
+    <style name="Title">
+        <item name="android:textColor">@color/sub</item>
         <item name="android:fontFamily">@font/racingsansone</item>
-    </style>
-
-    <style name="SubTitle">
-        <item name="android:textSize">24sp</item>
-        <item name="android:textColor">#3D405B</item>
-        <item name="android:fontFamily">@font/racingsansone</item>
-    </style>
-
-    <style name="BigContent">
-        <item name="android:textSize">16sp</item>
-        <item name="android:textColor">#3D405B</item>
-        <item name="android:fontFamily">@font/nunito_black</item>
     </style>
 
     <style name="Content">
-        <item name="android:textSize">12sp</item>
-        <item name="android:textColor">#3D405B</item>
+        <item name="android:textColor">@color/sub</item>
         <item name="android:fontFamily">@font/nunito_black</item>
     </style>
 
-    <style name="ContentNotBold">
-        <item name="android:textSize">8sp</item>
-        <item name="android:textColor">#3D405B</item>
-        <item name="android:fontFamily">@font/nunito_semibold</item>
+    <style name="ContentExtraBold">
+        <item name="android:textColor">@color/sub</item>
+        <item name="android:fontFamily">@font/nunito_extrabold</item>
     </style>
 
+    <style name="ContentNotBold">
+        <item name="android:textColor">@color/sub</item>
+        <item name="android:fontFamily">@font/nunito_medium</item>
+    </style>
+
+    <!-- corner -->
+    <style name="RoundedCornerImage" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">16dp</item> <!-- 可依需求調整圓角大小 -->
+    </style>
 
 
 

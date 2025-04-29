@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="Itinerary.ItinerarySetting">
+
+    <TextView
+        android:id="@+id/title_itisetting"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:text="@string/title_itisetting"
+        android:textAlignment="center"
+        android:textAppearance="@style/Title"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <FrameLayout
+        android:id="@+id/frameLayout"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title_itisetting">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/img_cover"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/metro_photo"
+            app:shapeAppearanceOverlay="@style/RoundedCornerImage" />
+
+        <TextView
+            android:id="@+id/cover_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Change Cover"
+            android:textAppearance="@style/Content"
+            android:textColor="@color/main"
+            android:textSize="24sp" />
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/content_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/content_name"
+        android:textAppearance="@style/Content"
+        android:textSize="18sp"
+        android:layout_marginTop="30dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/frameLayout"/>
+
+
+    <EditText
+        android:id="@+id/edit_content_name"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:paddingLeft="15dp"
+        android:ems="10"
+        android:hint="Name your Itinerary"
+        android:inputType="date"
+        android:textSize="14sp"
+        android:textAppearance="@style/ContentNotBold"
+        android:background="@drawable/custom_input"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/content_name"/>
+
+    <TextView
+        android:id="@+id/content_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/content_date"
+        android:textAppearance="@style/Content"
+        android:textSize="18sp"
+        android:layout_marginTop="30dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_content_name"/>
+
+
+    <EditText
+        android:id="@+id/edit_content_date"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:paddingLeft="15dp"
+        android:ems="10"
+        android:hint="Choose your Date"
+        android:inputType="date"
+        android:textSize="14sp"
+        android:textAppearance="@style/ContentNotBold"
+        android:background="@drawable/custom_input"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/content_date"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_confirm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/custom_btn"
+        android:text="@string/btn_confirm"
+        android:textAppearance="@style/ContentExtraBold"
+        android:textColor="@color/main"
+        android:textSize="14sp"
+        android:layout_marginBottom="50dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

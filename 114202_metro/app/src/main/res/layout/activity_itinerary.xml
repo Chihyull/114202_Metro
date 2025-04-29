@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Itinerary.Itinerary">
+
+    <TextView
+        android:id="@+id/title_iti"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:text="@string/title_iti"
+        android:textAlignment="center"
+        android:textAppearance="@style/Title"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <ImageView
+        android:id="@+id/bag"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_marginTop="70dp"
+        android:src="@drawable/bag_photo"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title_iti"/>
+
+    <TextView
+        android:id="@+id/content2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/content2"
+        android:textSize="24sp"
+        android:textAppearance="@style/Content"
+        android:visibility="visible"
+        android:layout_marginTop="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bag"/>
+
+    <TextView
+        android:id="@+id/content3"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:text="@string/content3"
+        android:textSize="14sp"
+        android:textAppearance="@style/ContentNotBold"
+        android:textAlignment="center"
+        android:visibility="visible"
+        android:layout_marginTop="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/content2"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_create"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/custom_btn"
+        android:text="@string/btn_create"
+        android:textAppearance="@style/ContentExtraBold"
+        android:textColor="@color/main"
+        android:textSize="14sp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/btn_ai"/>
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_ai"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/custom_btn"
+        android:text="@string/btn_ai"
+        android:textAppearance="@style/ContentExtraBold"
+        android:textColor="@color/main"
+        android:textSize="14sp"
+        android:layout_marginBottom="50dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
