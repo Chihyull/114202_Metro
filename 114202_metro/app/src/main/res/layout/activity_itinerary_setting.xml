@@ -24,7 +24,7 @@
         android:id="@+id/frameLayout"
         android:layout_width="match_parent"
         android:layout_height="150dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="30dp"
         android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -51,13 +51,13 @@
     </FrameLayout>
 
     <TextView
-        android:id="@+id/content_name"
+        android:id="@+id/iti_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/content_name"
         android:textAppearance="@style/Content"
         android:textSize="18sp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="20dp"
         android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -66,7 +66,7 @@
 
 
     <EditText
-        android:id="@+id/edit_content_name"
+        android:id="@+id/edit_title_name"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:paddingLeft="15dp"
@@ -81,25 +81,25 @@
         android:layout_marginEnd="30dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/content_name"/>
+        app:layout_constraintTop_toBottomOf="@+id/iti_title"/>
 
     <TextView
-        android:id="@+id/content_date"
+        android:id="@+id/content_start_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/content_date"
+        android:text="Itinerary Date"
         android:textAppearance="@style/Content"
         android:textSize="18sp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="20dp"
         android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_content_name"/>
+        app:layout_constraintTop_toBottomOf="@+id/edit_title_name"/>
 
 
     <EditText
-        android:id="@+id/edit_content_date"
+        android:id="@+id/edit_start_date"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:paddingLeft="15dp"
@@ -114,7 +114,21 @@
         android:layout_marginEnd="30dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/content_date"/>
+        app:layout_constraintTop_toBottomOf="@+id/content_start_date"/>
+
+    <TextView
+        android:id="@+id/content_end_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Destination"
+        android:textAppearance="@style/Content"
+        android:textSize="18sp"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_start_date"/>
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_confirm"
@@ -125,13 +139,31 @@
         android:textAppearance="@style/ContentExtraBold"
         android:textColor="@color/main"
         android:textSize="14sp"
-        android:layout_marginBottom="50dp"
+        android:layout_marginBottom="30dp"
         android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"/>
 
+
+    <EditText
+        android:id="@+id/edit_end_date"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:paddingLeft="15dp"
+        android:ems="10"
+        android:hint="Choose your Stations"
+        android:inputType="date"
+        android:textSize="14sp"
+        android:textAppearance="@style/ContentNotBold"
+        android:background="@drawable/custom_input"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/content_end_date"/>
 
 
 
