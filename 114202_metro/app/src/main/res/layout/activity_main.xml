@@ -7,37 +7,39 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-
-    <Button
-        android:id="@+id/btn_logout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="sign out"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <TextView
-        android:id="@+id/title"
+        android:id="@+id/hello"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="45dp"
         android:gravity="top"
-        android:text="@string/title"
-        android:textAppearance="@style/Title"
-        android:textSize="48sp"
+        android:text="Hello"
+        android:textAppearance="@style/ContentNotBold"
+        android:textSize="14sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         />
 
+    <TextView
+        android:id="@+id/guest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="top"
+        android:text="Guest"
+        android:textAppearance="@style/Content"
+        android:textSize="24sp"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="30dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/hello" />
+
     <ImageView
-        android:id="@+id/account"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginEnd="50dp"
-        android:layout_marginTop="50dp"
+        android:id="@+id/accountImg"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginTop="45dp"
         android:src="@drawable/account_photo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -47,13 +49,89 @@
         android:layout_width="100dp"
         android:layout_height="30dp"
         android:layout_marginTop="15dp"
-        android:src="@drawable/button_googlelogin"
-        app:layout_constraintTop_toBottomOf="@id/account"
-        app:layout_constraintStart_toStartOf="@id/account"
-        app:layout_constraintEnd_toEndOf="@id/account" />
+        android:src="@drawable/button_login"
+        app:layout_constraintTop_toBottomOf="@id/accountImg"
+        app:layout_constraintStart_toStartOf="@id/accountImg"
+        app:layout_constraintEnd_toEndOf="@id/accountImg" />
 
+    <TextView
+        android:id="@+id/firstTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Metro AI"
+        android:textAppearance="@style/Title"
+        android:textSize="28sp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/guest" />
 
+    <ImageView
+        android:id="@+id/chataiImg"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/firstTitle"
+        android:src="@drawable/chatai_photo"/>
 
+    <TextView
+        android:id="@+id/secondTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Metro Plan"
+        android:textAppearance="@style/Title"
+        android:textSize="28sp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="5dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/chataiImg" />
+
+    <ImageView
+        android:id="@+id/routeImg"
+        android:layout_width="0dp"
+        android:layout_height="150dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="8dp"
+        android:src="@drawable/route_photo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/itineraryImg"
+        app:layout_constraintTop_toBottomOf="@id/secondTitle" />
+
+    <ImageView
+        android:id="@+id/itineraryImg"
+        android:layout_width="0dp"
+        android:layout_height="150dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="30dp"
+        android:src="@drawable/itinerary_photo"
+        app:layout_constraintStart_toEndOf="@id/routeImg"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/secondTitle" />
+
+    <TextView
+        android:id="@+id/thirdTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="My Favorite"
+        android:textAppearance="@style/Title"
+        android:textSize="28sp"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="30dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/routeImg" />
+
+    <ImageView
+        android:id="@+id/favoriteImg"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:src="@drawable/favorite_photo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/thirdTitle" />
 
 
 
