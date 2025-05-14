@@ -90,12 +90,12 @@
         app:layout_constraintTop_toBottomOf="@+id/chataiImg" />
 
     <ImageView
-        android:id="@+id/routeImg"
+        android:id="@+id/stationImg"
         android:layout_width="0dp"
         android:layout_height="150dp"
         android:layout_marginStart="30dp"
         android:layout_marginEnd="8dp"
-        android:src="@drawable/route_photo"
+        android:src="@drawable/station_photo"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/itineraryImg"
         app:layout_constraintTop_toBottomOf="@id/secondTitle" />
@@ -107,7 +107,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginEnd="30dp"
         android:src="@drawable/itinerary_photo"
-        app:layout_constraintStart_toEndOf="@id/routeImg"
+        app:layout_constraintStart_toEndOf="@id/stationImg"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/secondTitle" />
 
@@ -121,7 +121,7 @@
         android:layout_marginTop="5dp"
         android:layout_marginStart="30dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/routeImg" />
+        app:layout_constraintTop_toBottomOf="@+id/stationImg" />
 
     <ImageView
         android:id="@+id/favoriteImg"
