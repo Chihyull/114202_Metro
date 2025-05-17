@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,6 +24,7 @@ import java.util.List;
 
 public class Station extends AppCompatActivity {
 
+    private TextView stationTitle;
     private RecyclerView rvStation;
     private StationAdapter stationAdapter;
     private List<StationModel> stationList;
@@ -31,6 +33,8 @@ public class Station extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_station);
+
+        stationTitle = findViewById(R.id.stationTitle);
 
         rvStation = findViewById(R.id.rv_station);
         rvStation.setLayoutManager(new LinearLayoutManager(this));
@@ -72,13 +76,26 @@ public class Station extends AppCompatActivity {
             if (json != null) {
                 try {
                     JSONArray jsonArray = new JSONArray(json);
+                    stationList.clear();
+
+                    String lineName = "";
+
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject obj = jsonArray.getJSONObject(i);
                         String stationCode = obj.getString("StationCode");
                         String nameE = obj.getString("NameE");
-                        stationList.add(new StationModel(stationCode, nameE));
+                        String line = obj.getString("Line");
+
+                        if (i == 0) {
+                            lineName = line;
+                        }
+
+                        stationList.add(new StationModel(stationCode, nameE, line));
                     }
+
+                    stationTitle.setText(lineName); // 設定標題
                     stationAdapter.notifyDataSetChanged();
+
                 } catch (Exception e) {
                     Toast.makeText(Station.this, "解析錯誤", Toast.LENGTH_SHORT).show();
                 }
