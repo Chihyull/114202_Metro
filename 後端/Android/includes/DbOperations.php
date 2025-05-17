@@ -30,7 +30,7 @@
 		
 		/* get Metro stations */
 		public function getStations() {
-			$stmt = $this->con->prepare("SELECT StationCode, NameE FROM metro.station ORDER BY SNo");
+			$stmt = $this->con->prepare("SELECT StationCode, Station AS NameE, Line FROM metro.v_line_station ORDER BY StationCode");
 			$stmt->execute();
 			$result = $stmt->get_result();
 		
@@ -40,6 +40,6 @@
 			}
 		
 			return $stations;
-		}				
+		}					
 	
 	}
