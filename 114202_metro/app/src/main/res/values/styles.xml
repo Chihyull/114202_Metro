@@ -27,6 +27,11 @@
         <item name="cornerSize">16dp</item> <!-- 可依需求調整圓角大小 -->
     </style>
 
+    <!-- 在你的res/values/styles.xml中添加這個樣式 -->
+    <style name="RoundedImageView">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">16dp</item>
+    </style>
 
 
 </resources>

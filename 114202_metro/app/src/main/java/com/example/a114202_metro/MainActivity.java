@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -18,6 +19,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
 import com.example.a114202_metro.Itinerary.Itinerary;
 import com.example.a114202_metro.Itinerary.ItinerarySetting;
 import com.example.a114202_metro.Station.Station;
@@ -35,10 +37,8 @@ public class MainActivity extends AppCompatActivity {
 
     private GoogleSignInClient gsc;
     private GoogleSignInAccount acct;
-    private ImageView btn_login;
-    private ImageView accountImg;
-    private ImageView itineraryImg;
-    private ImageView stationImg;
+    private ImageView btn_login, accountImg, itineraryImg, stationImg;
+    private TextView guest;
 
     private final ActivityResultLauncher<Intent> settingLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
@@ -47,6 +47,8 @@ public class MainActivity extends AppCompatActivity {
                     Intent data = result.getData();
                     if (data != null && data.getBooleanExtra("logout_success", false)) {
                         btn_login.setVisibility(View.VISIBLE);
+                        guest.setText("Guest");
+                        accountImg.setImageResource(R.drawable.account_photo); // 登出還原為預設頭像
                         Toast.makeText(this, "Logged out", Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -66,33 +68,41 @@ public class MainActivity extends AppCompatActivity {
 
         setupGoogleSignIn();
 
-        //取得畫面中的各個功能圖示元件
+        // 取得畫面中的元件
         btn_login = findViewById(R.id.btn_login);
         accountImg = findViewById(R.id.accountImg);
         itineraryImg = findViewById(R.id.itineraryImg);
         stationImg = findViewById(R.id.stationImg);
+        guest = findViewById(R.id.guest);
 
-        //開啟StationActivity
-        stationImg.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, Station.class);
-                startActivity(intent);
-            }
+        // 開啟StationActivity
+        stationImg.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, Station.class);
+            startActivity(intent);
         });
 
-        //google 登入
+        // 已登入則隱藏登入按鈕，並顯示資訊
         acct = GoogleSignIn.getLastSignedInAccount(this);
         if (acct != null) {
+            String personName = acct.getDisplayName();
             String personEmail = acct.getEmail();
+            String personPhoto = (acct.getPhotoUrl() != null) ? acct.getPhotoUrl().toString() : "";
+
+            guest.setText(personName);
+            Glide.with(this)
+                    .load(personPhoto)
+                    .placeholder(R.drawable.account_photo)
+                    .into(accountImg);
+
             btn_login.setVisibility(View.GONE);
         }
 
+        // Google 登入按鈕
         btn_login.setOnClickListener(view -> signIn());
 
-        // 開啟SettingActivity
+        // 開啟設定畫面
         accountImg.setOnClickListener(v -> {
-            acct = GoogleSignIn.getLastSignedInAccount(this); // ✅ 每次點擊時重新抓最新登入狀態
+            acct = GoogleSignIn.getLastSignedInAccount(this);
             if (acct != null) {
                 Intent intent = new Intent(MainActivity.this, SettingActivity.class);
                 settingLauncher.launch(intent);
@@ -100,7 +110,6 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, "Please Login First", Toast.LENGTH_SHORT).show();
             }
         });
-
     }
 
     private void setupGoogleSignIn() {
@@ -128,16 +137,28 @@ public class MainActivity extends AppCompatActivity {
         try {
             GoogleSignInAccount account = task.getResult(ApiException.class);
             if (account != null) {
+                String personName = account.getDisplayName();
                 String personEmail = account.getEmail();
-                registerUser(personEmail);
-                btn_login.setVisibility(View.GONE); // ✅ 直接隱藏登入按鈕
+                String personPhoto = (account.getPhotoUrl() != null) ? account.getPhotoUrl().toString() : "";
+
+                // 更新主畫面 UI
+                guest.setText(personName);
+                Glide.with(this)
+                        .load(personPhoto)
+                        .placeholder(R.drawable.account_photo)
+                        .into(accountImg);
+
+                // 呼叫後端 API
+                registerUser(personEmail, personName, personPhoto);
+
+                btn_login.setVisibility(View.GONE);
             }
         } catch (ApiException e) {
-            Toast.makeText(getApplicationContext(), "error", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Login Failed", Toast.LENGTH_SHORT).show();
         }
     }
 
-    private void registerUser(String personEmail) {
+    private void registerUser(String gmail, String name, String imageUrl) {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.URL_REGISTER,
                 response -> {
                     try {
@@ -151,7 +172,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-                params.put("gmail", personEmail);
+                params.put("gmail", gmail);
+                params.put("name", name);
+                params.put("image", imageUrl);
                 return params;
             }
         };
@@ -159,6 +182,4 @@ public class MainActivity extends AppCompatActivity {
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
     }
-
-
 }
