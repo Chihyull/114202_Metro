@@ -5,21 +5,20 @@
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
         <mxCell id="MowLBhuA5_mlT7OGzBJu-1" value="使用者" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" parent="1" vertex="1">
-          <mxGeometry x="10" y="545" width="30" height="60" as="geometry" />
+          <mxGeometry x="10" y="390" width="30" height="60" as="geometry" />
         </mxCell>
         <mxCell id="MowLBhuA5_mlT7OGzBJu-2" value="使用者登入" style="ellipse;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="120" y="30" width="100" height="60" as="geometry" />
-        </mxCell>
-        <mxCell id="MowLBhuA5_mlT7OGzBJu-16" value="修改行程" style="ellipse;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="120" y="1010" width="100" height="60" as="geometry" />
-        </mxCell>
-        <mxCell id="MowLBhuA5_mlT7OGzBJu-17" value="檢視行程" style="ellipse;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="120" y="1080" width="100" height="60" as="geometry" />
         </mxCell>
         <mxCell id="MowLBhuA5_mlT7OGzBJu-19" value="" style="endArrow=classic;html=1;rounded=0;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;dashed=1;" parent="1" source="MowLBhuA5_mlT7OGzBJu-18" target="MowLBhuA5_mlT7OGzBJu-2" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="240" y="90" as="sourcePoint" />
             <mxPoint x="290" y="40" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="320" y="50" />
+              <mxPoint x="280" y="50" />
+              <mxPoint x="240" y="50" />
+            </Array>
           </mxGeometry>
         </mxCell>
         <mxCell id="MowLBhuA5_mlT7OGzBJu-20" value="《extend》" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="MowLBhuA5_mlT7OGzBJu-19" vertex="1" connectable="0">
@@ -124,49 +123,55 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="MowLBhuA5_mlT7OGzBJu-38" value="" style="swimlane;startSize=0;" parent="1" vertex="1">
-          <mxGeometry x="80" y="10" width="400" height="1150" as="geometry" />
+          <mxGeometry x="80" y="10" width="620" height="830" as="geometry" />
         </mxCell>
         <mxCell id="MowLBhuA5_mlT7OGzBJu-3" value="檢視使用者資料" style="ellipse;whiteSpace=wrap;html=1;" parent="MowLBhuA5_mlT7OGzBJu-38" vertex="1">
-          <mxGeometry x="40" y="90" width="100" height="60" as="geometry" />
+          <mxGeometry x="150" y="50" width="100" height="60" as="geometry" />
         </mxCell>
         <mxCell id="MowLBhuA5_mlT7OGzBJu-4" value="修改使用者資料" style="ellipse;whiteSpace=wrap;html=1;" parent="MowLBhuA5_mlT7OGzBJu-38" vertex="1">
-          <mxGeometry x="40" y="160" width="100" height="60" as="geometry" />
+          <mxGeometry x="150" y="120" width="100" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="MowLBhuA5_mlT7OGzBJu-5" value="詢問捷運相關問題" style="ellipse;whiteSpace=wrap;html=1;" parent="MowLBhuA5_mlT7OGzBJu-38" vertex="1">
-          <mxGeometry x="40" y="230" width="100" height="60" as="geometry" />
+        <mxCell id="MowLBhuA5_mlT7OGzBJu-5" value="提問捷運相關問題" style="ellipse;whiteSpace=wrap;html=1;" parent="MowLBhuA5_mlT7OGzBJu-38" vertex="1">
+          <mxGeometry x="260" y="150" width="100" height="60" as="geometry" />
         </mxCell>
         <mxCell id="MowLBhuA5_mlT7OGzBJu-6" value="路線規劃" style="ellipse;whiteSpace=wrap;html=1;" parent="MowLBhuA5_mlT7OGzBJu-38" vertex="1">
-          <mxGeometry x="40" y="300" width="100" height="60" as="geometry" />
+          <mxGeometry x="260" y="220" width="100" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="MowLBhuA5_mlT7OGzBJu-7" value="行程規劃" style="ellipse;whiteSpace=wrap;html=1;" parent="MowLBhuA5_mlT7OGzBJu-38" vertex="1">
-          <mxGeometry x="40" y="370" width="100" height="60" as="geometry" />
+        <mxCell id="MowLBhuA5_mlT7OGzBJu-13" value="檢視收藏列表" style="ellipse;whiteSpace=wrap;html=1;" parent="MowLBhuA5_mlT7OGzBJu-38" vertex="1">
+          <mxGeometry x="260" y="550" width="100" height="58" as="geometry" />
         </mxCell>
-        <mxCell id="MowLBhuA5_mlT7OGzBJu-8" value="篩選" style="ellipse;whiteSpace=wrap;html=1;" parent="MowLBhuA5_mlT7OGzBJu-38" vertex="1">
-          <mxGeometry x="40" y="440" width="100" height="60" as="geometry" />
-        </mxCell>
-        <mxCell id="MowLBhuA5_mlT7OGzBJu-9" value="關鍵字查詢" style="ellipse;whiteSpace=wrap;html=1;" parent="MowLBhuA5_mlT7OGzBJu-38" vertex="1">
-          <mxGeometry x="40" y="510" width="100" height="60" as="geometry" />
-        </mxCell>
-        <mxCell id="MowLBhuA5_mlT7OGzBJu-10" value="新增收藏地點" style="ellipse;whiteSpace=wrap;html=1;" parent="MowLBhuA5_mlT7OGzBJu-38" vertex="1">
-          <mxGeometry x="40" y="580" width="100" height="60" as="geometry" />
-        </mxCell>
-        <mxCell id="MowLBhuA5_mlT7OGzBJu-11" value="刪除收藏地點" style="ellipse;whiteSpace=wrap;html=1;" parent="MowLBhuA5_mlT7OGzBJu-38" vertex="1">
-          <mxGeometry x="40" y="650" width="100" height="60" as="geometry" />
-        </mxCell>
-        <mxCell id="MowLBhuA5_mlT7OGzBJu-12" value="修改收藏地點" style="ellipse;whiteSpace=wrap;html=1;" parent="MowLBhuA5_mlT7OGzBJu-38" vertex="1">
-          <mxGeometry x="40" y="720" width="100" height="60" as="geometry" />
-        </mxCell>
-        <mxCell id="MowLBhuA5_mlT7OGzBJu-13" value="檢視收藏地點" style="ellipse;whiteSpace=wrap;html=1;" parent="MowLBhuA5_mlT7OGzBJu-38" vertex="1">
-          <mxGeometry x="40" y="790" width="100" height="58" as="geometry" />
-        </mxCell>
-        <mxCell id="MowLBhuA5_mlT7OGzBJu-14" value="新增行程" style="ellipse;whiteSpace=wrap;html=1;" parent="MowLBhuA5_mlT7OGzBJu-38" vertex="1">
-          <mxGeometry x="40" y="860" width="100" height="58" as="geometry" />
-        </mxCell>
-        <mxCell id="MowLBhuA5_mlT7OGzBJu-15" value="刪除行程" style="ellipse;whiteSpace=wrap;html=1;" parent="MowLBhuA5_mlT7OGzBJu-38" vertex="1">
-          <mxGeometry x="40" y="930" width="100" height="60" as="geometry" />
+        <mxCell id="MowLBhuA5_mlT7OGzBJu-14" value="新增行程地點" style="ellipse;whiteSpace=wrap;html=1;" parent="MowLBhuA5_mlT7OGzBJu-38" vertex="1">
+          <mxGeometry x="260" y="620" width="100" height="58" as="geometry" />
         </mxCell>
         <mxCell id="MowLBhuA5_mlT7OGzBJu-18" value="&lt;div&gt;Google登入驗證&lt;/div&gt;" style="ellipse;whiteSpace=wrap;html=1;" parent="MowLBhuA5_mlT7OGzBJu-38" vertex="1">
           <mxGeometry x="260" y="20" width="100" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="MowLBhuA5_mlT7OGzBJu-16" value="修改行程列表" style="ellipse;whiteSpace=wrap;html=1;" parent="MowLBhuA5_mlT7OGzBJu-38" vertex="1">
+          <mxGeometry x="150" y="720" width="100" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="MowLBhuA5_mlT7OGzBJu-15" value="刪除行程地點" style="ellipse;whiteSpace=wrap;html=1;" parent="MowLBhuA5_mlT7OGzBJu-38" vertex="1">
+          <mxGeometry x="150" y="650" width="100" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="MowLBhuA5_mlT7OGzBJu-17" value="檢視行程列表" style="ellipse;whiteSpace=wrap;html=1;" parent="MowLBhuA5_mlT7OGzBJu-38" vertex="1">
+          <mxGeometry x="40" y="750" width="100" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="MowLBhuA5_mlT7OGzBJu-7" value="行程規劃" style="ellipse;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="450" y="260" width="100" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="MowLBhuA5_mlT7OGzBJu-8" value="篩選" style="ellipse;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="450" y="330" width="100" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="MowLBhuA5_mlT7OGzBJu-9" value="關鍵字查詢" style="ellipse;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="560" y="360" width="100" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="MowLBhuA5_mlT7OGzBJu-10" value="新增收藏地點" style="ellipse;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="560" y="430" width="100" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="MowLBhuA5_mlT7OGzBJu-11" value="刪除收藏地點" style="ellipse;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="450" y="460" width="100" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="MowLBhuA5_mlT7OGzBJu-12" value="修改收藏列表" style="ellipse;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="450" y="530" width="100" height="60" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
