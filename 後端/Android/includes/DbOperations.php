@@ -36,55 +36,31 @@
 		}
 				
 
-		/* user register */
-		public function createUser($gmail) {
-			// 檢查是否已存在
-			$stmt = $this->con->prepare("SELECT UserNo FROM metro.user_login WHERE Gmail = ?");
-			$stmt->bind_param("s", $gmail);
-			$stmt->execute();
-			$stmt->store_result();
-		
-			if ($stmt->num_rows > 0) {
-				return 2; // 已存在
-			}
-		
-			// 尚未存在，插入新資料
-			$stmt = $this->con->prepare("
-				INSERT INTO metro.user_login (Gmail, IsStop, CreateTime) 
-				VALUES (?, 'N', NOW())
-			");
-			$stmt->bind_param("s", $gmail);
-		
-			if ($stmt->execute()) {
-				return 1; // 新增成功
-			} else {
-				return 0; // 失敗
-			}
+		/* create user */
+		public function createUser($gmail, $name) {
+		// 檢查是否已存在
+		$stmt = $this->con->prepare("SELECT UserNo FROM metro.user_profile WHERE Gmail = ?");
+		$stmt->bind_param("s", $gmail);
+		$stmt->execute();
+		$stmt->store_result();
+
+		if ($stmt->num_rows > 0) {
+			return 2; // 使用者已存在
 		}
-		
-		public function createProfile($gmail, $name) {
-			// 查找 UserNo
-			$stmt = $this->con->prepare("SELECT UserNo FROM metro.user_login WHERE Gmail = ?");
-			$stmt->bind_param("s", $gmail);
-			$stmt->execute();
-			$stmt->bind_result($userNo);
-		
-			if ($stmt->fetch()) {
-				$stmt->close();
-		
-				// 圖片強制設為 default
-				$defaultImage = "default";
-				$stmt = $this->con->prepare("
-					INSERT INTO metro.user_profile (UserNo, UserName, UserImage, UpdateTime) 
-					VALUES (?, ?, ?, NOW())
-				");
-				$stmt->bind_param("iss", $userNo, $name, $defaultImage);
-				if ($stmt->execute()) {
-					return 1;
-				}
-			}
-		
-			return 0;
-		}				
+
+		// 尚未存在，插入新資料
+		$defaultImage = "default";
+		$stmt = $this->con->prepare("
+			INSERT INTO metro.user_profile (Gmail, UserName, UserImage, IsStop, CreateTime, UpdateTime)
+			VALUES (?, ?, ?, 'N', NOW(), NOW())
+		");
+		$stmt->bind_param("sss", $gmail, $name, $defaultImage);
+
+		if ($stmt->execute()) {
+			return 1; // 新增成功
+		} else {
+			return 0; // 新增失敗
+		}
+	}			
 	
 	}
