@@ -17,12 +17,13 @@
 
         <!-- 六角形區 -->
         <LinearLayout
+            android:id="@+id/hexLayout"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:orientation="vertical"
             android:gravity="center"
             android:layout_marginEnd="12dp"
-            android:background="@drawable/station_bg">
+            android:background="@drawable/station_brown">
 
             <TextView
                 android:id="@+id/lineCode"
@@ -62,3 +63,5 @@
         android:layout_height="1dp"
         android:background="@color/sub" />
 </LinearLayout>
+
+

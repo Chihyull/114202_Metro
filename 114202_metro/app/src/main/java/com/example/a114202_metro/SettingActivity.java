@@ -20,6 +20,11 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -27,9 +32,14 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.material.imageview.ShapeableImageView;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 public class SettingActivity extends AppCompatActivity {
 
@@ -41,7 +51,10 @@ public class SettingActivity extends AppCompatActivity {
     private GoogleSignInClient gsc;
     private ImageView btn_logout;
     private ShapeableImageView avatar;     // 改為ShapeableImageView
-    private EditText edit_title_name;  // 用於顯示使用者名稱
+    private EditText editTitleName;
+    private String userGmail;
+    private String originalName = "";
+    private boolean isUpdating = false;
     private SharedPreferences sharedPreferences;
 
     @Override
@@ -62,7 +75,21 @@ public class SettingActivity extends AppCompatActivity {
         // 初始化元件
         btn_logout = findViewById(R.id.btn_logout);
         avatar = findViewById(R.id.avatar);  // 現在這是一個ShapeableImageView
-        edit_title_name = findViewById(R.id.edit_title_name);
+        editTitleName = findViewById(R.id.edit_title_name);
+
+        editTitleName.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus) {  // 當 EditText 失去焦點時
+                String newName = editTitleName.getText().toString().trim();
+                GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(this);
+                if (acct != null && !newName.isEmpty()) {
+                    String gmail = acct.getEmail();
+                    updateUserName(gmail, newName);
+                }
+            }
+        });
+
+
+
 
         // 初始化 GoogleSignInClient
         gsc = GoogleSignIn.getClient(this,
@@ -89,7 +116,7 @@ public class SettingActivity extends AppCompatActivity {
         // 設置用戶名稱
         if (acct != null) {
             String name = acct.getDisplayName();
-            edit_title_name.setText(name);
+            editTitleName.setText(name);
         }
 
         // 先檢查是否有自定義圖片，無論用戶是否登入都嘗試載入自定義圖片
@@ -125,6 +152,41 @@ public class SettingActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void updateUserName(String gmail, String newName) {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST,
+                Constants.URL_UPDATE_NAME,
+                response -> {
+                    try {
+                        JSONObject jsonObject = new JSONObject(response);
+                        boolean error = jsonObject.getBoolean("error");
+                        String message = jsonObject.getString("message");
+
+                        if (!error) {
+                            Toast.makeText(SettingActivity.this, "更新成功：" + jsonObject.getString("updated_name"), Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(SettingActivity.this, "更新失敗：" + message, Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        Toast.makeText(SettingActivity.this, "解析錯誤", Toast.LENGTH_SHORT).show();
+                    }
+                },
+                error -> Toast.makeText(SettingActivity.this, "網路錯誤：" + error.getMessage(), Toast.LENGTH_SHORT).show()
+        ) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("gmail", gmail);
+                params.put("name", newName);
+                return params;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+    }
+
 
     private void openGallery() {
         Intent intent = new Intent(Intent.ACTION_PICK);

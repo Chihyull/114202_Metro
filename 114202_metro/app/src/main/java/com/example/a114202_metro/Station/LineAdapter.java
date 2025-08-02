@@ -12,6 +12,10 @@ import com.example.a114202_metro.R;
 
 import java.util.List;
 
+import android.graphics.drawable.GradientDrawable;
+import androidx.core.content.ContextCompat;
+
+
 public class LineAdapter extends RecyclerView.Adapter<LineAdapter.LineViewHolder> {
 
     private List<LineModel> lineList;
@@ -52,6 +56,7 @@ public class LineAdapter extends RecyclerView.Adapter<LineAdapter.LineViewHolder
                 listener.onLineClick(code); // 通知外部
             }
         });
+
     }
 
     @Override

@@ -21,7 +21,6 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.example.a114202_metro.Itinerary.Itinerary;
-import com.example.a114202_metro.Itinerary.ItinerarySetting;
 import com.example.a114202_metro.Station.Station;
 import com.google.android.gms.auth.api.signin.*;
 import com.google.android.gms.common.api.ApiException;
@@ -37,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
 
     private GoogleSignInClient gsc;
     private GoogleSignInAccount acct;
-    private ImageView btn_login, accountImg, itineraryImg, stationImg;
+    private ImageView btn_login, accountImg, itineraryImg, stationImg, chataiImg, favoriteImg;
     private TextView guest;
 
     private final ActivityResultLauncher<Intent> settingLauncher = registerForActivityResult(
@@ -74,6 +73,31 @@ public class MainActivity extends AppCompatActivity {
         itineraryImg = findViewById(R.id.itineraryImg);
         stationImg = findViewById(R.id.stationImg);
         guest = findViewById(R.id.guest);
+        chataiImg = findViewById(R.id.chataiImg);
+        favoriteImg = findViewById(R.id.favoriteImg);
+
+        //開啟UserLikeActivity
+        favoriteImg.setOnClickListener(v -> {
+            acct = GoogleSignIn.getLastSignedInAccount(this);
+            if (acct != null) {
+                Intent intent = new Intent(MainActivity.this, UserLike.class);
+                startActivity(intent);
+            } else {
+                Toast.makeText(this, "Please Login First", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        //開啟ItineraryActivity
+        itineraryImg.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, Itinerary.class);
+            startActivity(intent);
+        });
+
+        // 開啟ChatAIActivity
+        chataiImg.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, ChatAI.class);
+            startActivity(intent);
+        });
 
         // 開啟StationActivity
         stationImg.setOnClickListener(v -> {

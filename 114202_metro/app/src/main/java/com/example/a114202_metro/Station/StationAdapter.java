@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -55,6 +56,10 @@ public class StationAdapter extends RecyclerView.Adapter<StationAdapter.StationV
         holder.lineCode.setText(lineCode);
         holder.stationCode.setText(stationCode);
         holder.stationName.setText(station.getNameE());
+
+        // 根據 lineCode 設定六角形背景
+        int bgResId = getBackgroundByLineCode(lineCode);
+        holder.hexLayout.setBackgroundResource(bgResId);
     }
 
 
@@ -104,12 +109,37 @@ public class StationAdapter extends RecyclerView.Adapter<StationAdapter.StationV
 
     public static class StationViewHolder extends RecyclerView.ViewHolder {
         TextView stationCode, stationName, lineCode;
+        LinearLayout hexLayout;  // 六角形外層容器
 
         public StationViewHolder(@NonNull View itemView) {
             super(itemView);
             stationCode = itemView.findViewById(R.id.stationCode);
             stationName = itemView.findViewById(R.id.stationName);
             lineCode = itemView.findViewById(R.id.lineCode);
+
+            // 假設你六角形 LinearLayout 的 id 是 hexLayout
+            hexLayout = itemView.findViewById(R.id.hexLayout);
+        }
+    }
+
+    // 依照 lineCode 返回不同背景 drawable id
+    private int getBackgroundByLineCode(String lineCode) {
+        switch (lineCode) {
+            case "BR":
+                return R.drawable.station_brown;
+            case "BL":
+                return R.drawable.station_blue;
+            case "G":
+                return R.drawable.station_green;
+            case "O":
+                return R.drawable.station_orange;
+            case "R":
+                return R.drawable.station_red;
+            case "Y":
+                return R.drawable.station_yellow;
+            default:
+                return R.drawable.station_bg; // 預設背景
         }
     }
 }
+

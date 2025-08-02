@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ChatAI.ChatAI">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/bottom_layout"/>
+
+    <TextView
+        android:id="@+id/welcome_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="Welcome to ChatAI"
+        android:textSize="28dp"
+        android:textAppearance="@style/ContentExtraBold"
+        android:gravity="center"/>
+
+    <RelativeLayout
+        android:id="@+id/bottom_layout"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_marginBottom="0dp"
+        android:padding="8dp"
+        android:layout_alignParentBottom="true">
+
+        <EditText
+            android:id="@+id/message_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textAppearance="@style/ContentNotBold"
+            android:textSize="14sp"
+            android:textColor="@color/main"
+            android:textColorHint="@color/main"
+            android:hint="Type Something..."
+            android:padding="16dp"
+            android:background="@drawable/custom_chat_corner"
+            android:layout_toLeftOf="@+id/send_btn"/>
+
+        <ImageButton
+            android:id="@+id/send_btn"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerInParent="true"
+            android:layout_marginStart="10dp"
+            android:padding="8dp"
+            android:background="@drawable/telegram_photo"/>
+    </RelativeLayout>
+
+</RelativeLayout>

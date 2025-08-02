@@ -35,7 +35,7 @@
     <EditText
         android:id="@+id/filter_station"
         android:background="@drawable/custom_input"
-        android:hint="find product"
+        android:hint="Search"
         android:paddingLeft="10dp"
         android:textSize="14sp"
         android:textAppearance="@style/ContentNotBold"
@@ -68,5 +68,6 @@
 
 
     </RelativeLayout>
+
 
 </RelativeLayout>

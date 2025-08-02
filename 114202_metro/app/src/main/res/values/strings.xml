@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">114202_metro</string>
+    <string name="app_name">HopOn Taipei</string>
 
     <!-- title -->
     <string name="title">Call202</string>
@@ -8,8 +8,8 @@
 
     <!-- content -->
     <string name="content2">Empty</string>
-    <string name="content3">Start Building your itinerary by saving
-    inspiring destinations and Experiences</string>
+    <string name="content3">Start Building your Favoirite Itinerary by saving
+    interesting Stations and Experiences</string>
     <string name="content_name">Itinerary Name</string>
 
     <!-- button -->
