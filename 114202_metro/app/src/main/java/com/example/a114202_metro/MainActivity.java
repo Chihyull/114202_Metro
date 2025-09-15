@@ -21,6 +21,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.example.a114202_metro.Itinerary.Itinerary;
+import com.example.a114202_metro.Route.Route;
 import com.example.a114202_metro.Station.Station;
 import com.google.android.gms.auth.api.signin.*;
 import com.google.android.gms.common.api.ApiException;
@@ -36,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
 
     private GoogleSignInClient gsc;
     private GoogleSignInAccount acct;
-    private ImageView btn_login, accountImg, itineraryImg, stationImg, chataiImg, favoriteImg;
+    private ImageView btn_login, accountImg, itineraryImg, stationImg, pathImg, favoriteImg;
     private TextView guest;
 
     private final ActivityResultLauncher<Intent> settingLauncher = registerForActivityResult(
@@ -70,11 +71,17 @@ public class MainActivity extends AppCompatActivity {
         // 取得畫面中的元件
         btn_login = findViewById(R.id.btn_login);
         accountImg = findViewById(R.id.accountImg);
+        pathImg = findViewById(R.id.pathImg);
         itineraryImg = findViewById(R.id.itineraryImg);
         stationImg = findViewById(R.id.stationImg);
         guest = findViewById(R.id.guest);
-        chataiImg = findViewById(R.id.chataiImg);
         favoriteImg = findViewById(R.id.favoriteImg);
+
+        //開啟routeActivity
+        pathImg.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, Route.class);
+            startActivity(intent);
+        });
 
         //開啟UserLikeActivity
         favoriteImg.setOnClickListener(v -> {
@@ -94,10 +101,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // 開啟ChatAIActivity
-        chataiImg.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, ChatAI.class);
-            startActivity(intent);
-        });
+
 
         // 開啟StationActivity
         stationImg.setOnClickListener(v -> {

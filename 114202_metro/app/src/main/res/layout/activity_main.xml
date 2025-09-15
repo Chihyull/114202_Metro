@@ -70,7 +70,7 @@
         app:layout_constraintTop_toBottomOf="@+id/guest" />
 
     <ImageView
-        android:id="@+id/chataiImg"
+        android:id="@+id/pathImg"
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:layout_marginStart="30dp"
@@ -78,7 +78,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/firstTitle"
-        android:src="@drawable/chatai_photo"/>
+        android:src="@drawable/path_photo"/>
 
     <TextView
         android:id="@+id/secondTitle"
@@ -90,7 +90,7 @@
         android:layout_marginStart="30dp"
         android:layout_marginTop="5dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/chataiImg" />
+        app:layout_constraintTop_toBottomOf="@+id/pathImg" />
 
     <ImageView
         android:id="@+id/stationImg"

@@ -18,12 +18,8 @@
         android:theme="@style/Theme._114202_metro"
         tools:targetApi="31">
         <activity
-            android:name=".test"
+            android:name=".Route.Route"
             android:exported="false" />
-        <activity
-            android:name=".ChatAI.ChatAI"
-            android:exported="true"
-            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".UserLike"
             android:exported="false" />
