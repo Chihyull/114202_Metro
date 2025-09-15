@@ -1,5 +1,5 @@
 <?php 
 	define('DB_NAME','metro');
-	define('DB_USER','metro');
-	define('DB_PASSWORD','@C@se6409');
-	define('DB_HOST','140.131.115.94');
+	define('DB_USER','root');
+	define('DB_PASSWORD','123456789');
+	define('DB_HOST','127.0.0.1');

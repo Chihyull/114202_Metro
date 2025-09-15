@@ -1,5 +1,7 @@
-<?php 
-header('Content-Type: application/json; charset=utf-8');
+<?php
+ 
+header('Content-Type: application/json');
+
 require_once '../includes/DbOperations.php';
 
 $response = array(); 
@@ -18,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $response['message'] = "User registered successfully.";
         } elseif ($result == 2) {
             $response['error'] = false; 
-            $response['message'] = "User already exists.";
+            #$response['message'] = "User already exists.";
         } else {
             $response['error'] = true; 
             $response['message'] = "User registration failed.";
