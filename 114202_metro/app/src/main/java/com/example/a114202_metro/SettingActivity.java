@@ -83,12 +83,9 @@ public class SettingActivity extends AppCompatActivity {
                 GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(this);
                 if (acct != null && !newName.isEmpty()) {
                     String gmail = acct.getEmail();
-                    updateUserName(gmail, newName);
                 }
             }
         });
-
-
 
 
         // 初始化 GoogleSignInClient
@@ -152,41 +149,6 @@ public class SettingActivity extends AppCompatActivity {
             }
         });
     }
-
-    private void updateUserName(String gmail, String newName) {
-        StringRequest stringRequest = new StringRequest(Request.Method.POST,
-                Constants.URL_UPDATE_NAME,
-                response -> {
-                    try {
-                        JSONObject jsonObject = new JSONObject(response);
-                        boolean error = jsonObject.getBoolean("error");
-                        String message = jsonObject.getString("message");
-
-                        if (!error) {
-                            Toast.makeText(SettingActivity.this, "更新成功：" + jsonObject.getString("updated_name"), Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(SettingActivity.this, "更新失敗：" + message, Toast.LENGTH_SHORT).show();
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                        Toast.makeText(SettingActivity.this, "解析錯誤", Toast.LENGTH_SHORT).show();
-                    }
-                },
-                error -> Toast.makeText(SettingActivity.this, "網路錯誤：" + error.getMessage(), Toast.LENGTH_SHORT).show()
-        ) {
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> params = new HashMap<>();
-                params.put("gmail", gmail);
-                params.put("name", newName);
-                return params;
-            }
-        };
-
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        requestQueue.add(stringRequest);
-    }
-
 
     private void openGallery() {
         Intent intent = new Intent(Intent.ACTION_PICK);
