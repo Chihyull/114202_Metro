@@ -13,13 +13,110 @@
 			$this->con = $db->connect();
 		}
 
+
+		/* find shortest path */
+
+		/* 取得整張圖（一次載入）：key = Start，value = 陣列( [neighbor => time] ) */
+		public function buildGraph() {
+			$sql = "SELECT Start, End, Time FROM metro.station_path";
+			$res = $this->con->query($sql);
+
+			$graph = [];
+			while ($row = $res->fetch_assoc()) {
+				$u = $row['Start'];
+				$v = $row['End'];
+				$w = (int)$row['Time'];
+
+				if (!isset($graph[$u])) $graph[$u] = [];
+				$graph[$u][$v] = $w;
+
+				/* 如果你的邊是「無向」的，打開下面這行，會自動補反向邊 */
+				if (!isset($graph[$v])) $graph[$v] = [];
+				$graph[$v][$u] = $w;
+			}
+			return $graph;
+		}
+
+		/* Dijkstra：回傳最短距離與路徑 */
+		public function dijkstraShortestPath($start, $end) {
+			$graph = $this->buildGraph();
+
+			if (!isset($graph[$start]) && !array_key_exists($start, $graph)) {
+				// 起點沒有任何出邊且不在 key 中
+				// 有些點可能只出現在別人的 neighbor，補一個空陣列以便演算法繼續
+				$graph[$start] = [];
+			}
+			// 同理確保 $end 至少存在於圖的節點集合（即便沒有出邊）
+			if (!isset($graph[$end]) && !array_key_exists($end, $graph)) {
+				$graph[$end] = [];
+			}
+
+			// 蒐集所有節點（包含只出現在 neighbor 的點）
+			$nodes = array_fill_keys(array_keys($graph), true);
+			foreach ($graph as $u => $adj) {
+				foreach ($adj as $v => $_) $nodes[$v] = true;
+			}
+
+			// 初始化距離與前驅
+			$dist = [];
+			$prev = [];
+			foreach ($nodes as $node => $_) {
+				$dist[$node] = INF;
+				$prev[$node] = null;
+			}
+			$dist[$start] = 0;
+
+			// 使用 SplPriorityQueue（注意它是最大堆，priority 取負數）
+			$pq = new \SplPriorityQueue();
+			$pq->setExtractFlags(\SplPriorityQueue::EXTR_DATA);
+			$pq->insert($start, 0);
+
+			while (!$pq->isEmpty()) {
+				$u = $pq->extract();
+
+				if ($u === $end) break; // 走到終點即可停止（Dijkstra 性質）
+
+				if (!isset($graph[$u])) continue;
+				foreach ($graph[$u] as $v => $w) {
+					$alt = $dist[$u] + $w;
+					if ($alt < $dist[$v]) {
+						$dist[$v] = $alt;
+						$prev[$v] = $u;
+						$pq->insert($v, -$alt); // 負數做成最小距離優先
+					}
+				}
+			}
+
+			if (!is_finite($dist[$end])) {
+				return [
+					'found' => false,
+					'distance' => null,
+					'path' => []
+				];
+			}
+
+			// 回溯路徑
+			$path = [];
+			for ($at = $end; $at !== null; $at = $prev[$at]) {
+				$path[] = $at;
+			}
+			$path = array_reverse($path);
+
+			return [
+				'found' => true,
+				'distance' => $dist[$end], // 總時間（與 Time 同單位）
+				'path' => $path
+			];
+		}
+
+
 		/* get Metro stations */
 		public function getStations($lineCode = null) {
 			if ($lineCode) {
-				$stmt = $this->con->prepare("SELECT StationCode, Station AS NameE, Line, LineCode FROM metro.v_line_station WHERE LineCode = ? ORDER BY Sort");
+				$stmt = $this->con->prepare("SELECT StationCode, Station AS NameE, Line, LineCode FROM metro.v_line_station WHERE LineCode = ? ORDER BY StationCode");
 				$stmt->bind_param("s", $lineCode);
 			} else {
-				$stmt = $this->con->prepare("SELECT StationCode, Station AS NameE, Line, LineCode FROM metro.v_line_station ORDER BY Sort");
+				$stmt = $this->con->prepare("SELECT StationCode, Station AS NameE, Line, LineCode FROM metro.v_line_station ORDER BY StationCode");
 			}
 		
 			$stmt->execute();
@@ -32,60 +129,33 @@
 		
 			return $stations;
 		}
-
-		/* updateUserName */
-		public function updateUserName($gmail, $newName) {
-			$stmt = $this->con->prepare("UPDATE metro.user_profile SET UserName = ?, UpdateTime = NOW() WHERE Gmail = ?");
-			$stmt->bind_param("ss", $newName, $gmail);
-
-			if ($stmt->execute()) {
-				return true;
-			}
-			return false;
-		}
-
-		/* selectUserName */
-		public function getUserName($gmail) {
-			$stmt = $this->con->prepare("SELECT UserName FROM metro.user_profile WHERE Gmail = ?");
-			$stmt->bind_param("s", $gmail);
-
-			if ($stmt->execute()) {
-				$stmt->bind_result($userName);
-				if ($stmt->fetch()) {
-					$stmt->close();
-					return $userName;
-				}
-			}
-			$stmt->close();
-			return false;
-		}
+				
 
 		/* create user */
 		public function createUser($gmail, $name) {
-			// 檢查是否已存在
-			$stmt = $this->con->prepare("SELECT UserNo FROM metro.user_profile WHERE Gmail = ?");
-			$stmt->bind_param("s", $gmail);
-			$stmt->execute();
-			$stmt->store_result();
+		// 檢查是否已存在
+		$stmt = $this->con->prepare("SELECT UserNo FROM metro.user_profile WHERE Gmail = ?");
+		$stmt->bind_param("s", $gmail);
+		$stmt->execute();
+		$stmt->store_result();
 
-			if ($stmt->num_rows > 0) {
-				return 2; // 使用者已存在
-			}
+		if ($stmt->num_rows > 0) {
+			return 2; // 使用者已存在
+		}
 
-			// 尚未存在，插入新資料
-			$defaultImage = "default";
-			$stmt = $this->con->prepare("
-				INSERT INTO metro.user_profile (Gmail, UserName, UserImage, IsStop, CreateTime, UpdateTime)
-				VALUES (?, ?, ?, 'N', NOW(), NOW())
-			");
-			$stmt->bind_param("sss", $gmail, $name, $defaultImage);
+		// 尚未存在，插入新資料
+		$defaultImage = "default";
+		$stmt = $this->con->prepare("
+			INSERT INTO metro.user_profile (Gmail, UserName, UserImage, IsStop, CreateTime, UpdateTime)
+			VALUES (?, ?, ?, 'N', NOW(), NOW())
+		");
+		$stmt->bind_param("sss", $gmail, $name, $defaultImage);
 
-			if ($stmt->execute()) {
-				return 1; // 新增成功
-			} else {
-				return 0; // 新增失敗
-			}
-		}	
-			
+		if ($stmt->execute()) {
+			return 1; // 新增成功
+		} else {
+			return 0; // 新增失敗
+		}
+	}			
 	
-}
+	}
