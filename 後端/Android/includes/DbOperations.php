@@ -14,8 +14,41 @@
 		}
 
 
-		/* find shortest path */
+		/* Metro get station exits */
+	public function getStationExits($stationCode = null) {
+        if ($stationCode) {
+            $stmt = $this->con->prepare("
+                SELECT StationCode, nameE, `Exit` AS ExitCode
+                FROM metro.v_station_exit_place
+                WHERE StationCode = ?
+                ORDER BY `Exit`
+            ");
+            $stmt->bind_param("s", $stationCode);
+        } else {
+            $stmt = $this->con->prepare("
+                SELECT StationCode, nameE, `Exit` AS ExitCode
+                FROM metro.v_station_exit_place
+                ORDER BY StationCode, `Exit`
+            ");
+        }
+        $stmt->execute();
+        $result = $stmt->get_result();
 
+        $rows = [];
+        while ($row = $result->fetch_assoc()) {
+            // 統一輸出欄位命名：StationCode, NameE, ExitCode
+            $rows[] = [
+                'StationCode' => $row['StationCode'],
+                'NameE'       => $row['nameE'],
+                'ExitCode'    => $row['ExitCode'],
+            ];
+        }
+        return $rows;
+    }
+
+
+
+		/* find shortest path */
 		/* 取得整張圖（一次載入）：key = Start，value = 陣列( [neighbor => time] ) */
 		public function buildGraph() {
 			$sql = "SELECT Start, End, Time FROM metro.station_path";
