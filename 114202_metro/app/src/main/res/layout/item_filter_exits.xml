@@ -1,0 +1,22 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="8dp"
+    android:orientation="horizontal"
+    android:gravity="center"
+    android:layout_margin="4dp"
+    android:background="@drawable/custom_btn_item_station">
+
+    <TextView
+        android:id="@+id/tv_exits_code"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/ContentNotBold"
+        android:text="XX"
+        android:textColor="@color/item_text_color_changed"
+        android:textSize="16sp"
+        android:gravity="center"
+        android:background="@drawable/custom_btn_changed"/>
+
+</LinearLayout>

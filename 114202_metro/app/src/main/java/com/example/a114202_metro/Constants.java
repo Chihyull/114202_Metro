@@ -7,4 +7,6 @@ public class Constants {
     public static final String URL_REGISTER = ROOT_URL + "createUser.php";
     public static final String URL_GET_STATIONS = ROOT_URL + "getStations.php";
     public static final String URL_GET_SHORTEST_PATH = ROOT_URL + "getShortestPath.php";
+    public static final String URL_GET_STATIONS_EXITS = ROOT_URL + "getStationsExits.php";
+    public static final String URL_CREATE_ITINERARY = ROOT_URL + "createItinerary.php";
 }

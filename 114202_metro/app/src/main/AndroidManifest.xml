@@ -17,6 +17,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme._114202_metro"
         tools:targetApi="31">
+
+        <activity
+            android:name=".Station.StationPlace"
+            android:exported="false" />
         <activity
             android:name=".Station.PathStation"
             android:exported="false" />

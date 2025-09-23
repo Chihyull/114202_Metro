@@ -1,53 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="200dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:layout_margin="20dp"
-    app:cardCornerRadius="20dp">
+    app:cardCornerRadius="20dp"
+    app:cardUseCompatPadding="true"
+    app:cardElevation="6dp">
 
-
-    <ImageButton
-        android:id="@+id/itinerary_list_image_button"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="140dp"
-        android:background="@drawable/itinerary_item"
-        android:scaleType="centerCrop"
-        android:src="@drawable/metro_photo"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/itineraryTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="150dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:textAppearance="@style/ContentNotBold"
-        android:textSize="15dp"
-        android:maxLines="1"
-        android:ellipsize="end"
-        android:text="TextView"
-        app:layout_constraintTop_toBottomOf="@+id/itinerary_list_image_button"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        <!-- 封面圖 -->
+        <ImageView
+            android:id="@+id/itinerary_list_image_button"
+            android:layout_width="0dp"
+            android:layout_height="140dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/metro_photo"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
-    <TextView
-        android:id="@+id/itineraryContent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="175dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:textAppearance="@style/ContentNotBold"
-        android:textSize="12dp"
-        android:maxLines="2"
-        android:ellipsize="end"
-        android:text="TextView"
-        app:layout_constraintTop_toBottomOf="@+id/itineraryTitle"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        <!-- 標題 -->
+        <TextView
+            android:id="@+id/itineraryTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginTop="12dp"
+            android:text="My Metro Trip"
+            android:textAppearance="@style/ContentNotBold"
+            android:textSize="16sp"
+            android:maxLines="1"
+            android:ellipsize="end"
+            app:layout_constraintTop_toBottomOf="@id/itinerary_list_image_button"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
+        <!-- 日期區間 -->
+        <TextView
+            android:id="@+id/itineraryDate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginTop="6dp"
+            android:text="2025/09/25 – 2025/09/27"
+            android:textAppearance="@style/ContentNotBold"
+            android:textSize="13sp"
+            android:textColor="#666666"
+            app:layout_constraintTop_toBottomOf="@id/itineraryTitle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- 目的地站點 -->
+        <TextView
+            android:id="@+id/itineraryDest"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="12dp"
+            android:text="Destination"
+            android:textAppearance="@style/ContentNotBold"
+            android:textSize="13sp"
+            android:textColor="#666666"
+            app:layout_constraintTop_toBottomOf="@id/itineraryDate"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <!-- （相容舊程式）如果你有用到 itineraryContent，就讓它隱藏或拿來當備用 -->
+        <TextView
+            android:id="@+id/itineraryContent"
+            android:visibility="gone"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/itineraryDest"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

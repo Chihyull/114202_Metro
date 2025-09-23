@@ -104,21 +104,26 @@
         android:layout_height="50dp"
         android:paddingLeft="15dp"
         android:ems="10"
-        android:hint="Choose your Date"
+        android:hint="Choose your Date Range"
         android:inputType="none"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:clickable="true"
         android:textSize="14sp"
         android:textAppearance="@style/ContentNotBold"
         android:background="@drawable/custom_input"
         android:layout_marginTop="5dp"
         android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp"
+        android:contentDescription="Select trip start and end dates"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/content_start_date"/>
 
 
+
     <TextView
-        android:id="@+id/content_end_date"
+        android:id="@+id/content_dest"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Destination"
@@ -131,15 +136,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edit_start_date"/>
 
-
     <EditText
-        android:id="@+id/edit_end_date"
+        android:id="@+id/edit_dest"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:paddingLeft="15dp"
-        android:ems="10"
-        android:hint="Enter your Destination"
-        android:inputType="text"
+        android:hint="Select Destination Station"
+        android:inputType="none"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:clickable="true"
         android:textSize="14sp"
         android:textAppearance="@style/ContentNotBold"
         android:background="@drawable/custom_input"
@@ -148,7 +154,7 @@
         android:layout_marginEnd="30dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/content_end_date"/>
+        app:layout_constraintTop_toBottomOf="@+id/content_dest"/>
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_confirm"
@@ -165,7 +171,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"/>
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
