@@ -74,7 +74,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent" />
 
-        <!-- （相容舊程式）如果你有用到 itineraryContent，就讓它隱藏或拿來當備用 -->
+        <!-- 舊 itineraryContent（保留） -->
         <TextView
             android:id="@+id/itineraryContent"
             android:visibility="gone"

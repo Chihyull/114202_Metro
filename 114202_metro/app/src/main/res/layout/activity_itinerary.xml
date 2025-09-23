@@ -21,6 +21,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <!-- 空狀態：包包圖片 -->
     <ImageView
         android:id="@+id/bag"
         android:layout_width="200dp"
@@ -59,6 +60,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/content2"/>
 
+    <!-- 新增行程按鈕 -->
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_create"
         android:layout_width="40dp"
@@ -70,6 +72,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <!-- AI 按鈕 -->
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_ai"
         android:layout_width="match_parent"
@@ -86,55 +89,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"/>
 
-    <!-- CardView-->
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardView"
+    <!-- RecyclerView：取代原本單一的 CardView -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvItinerary"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
+        android:layout_height="0dp"
         android:layout_marginTop="20dp"
-        app:cardCornerRadius="20dp"
+        android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@+id/title_iti"
+        app:layout_constraintBottom_toTopOf="@+id/btn_ai"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:visibility="gone">
-
-        <ImageButton
-            android:id="@+id/itinerary_list_image_button"
-            android:layout_width="match_parent"
-            android:layout_height="140dp"
-            android:background="@drawable/itinerary_item"
-            android:scaleType="centerCrop"
-            android:src="@drawable/metro_photo"/>
-
-        <TextView
-            android:id="@+id/itineraryTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="150dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:textAppearance="@style/ContentNotBold"
-            android:textSize="15dp"
-            android:maxLines="1"
-            android:ellipsize="end"
-            android:text="happy day" />
-
-        <TextView
-            android:id="@+id/itineraryContent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="175dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:textAppearance="@style/ContentNotBold"
-            android:textSize="12dp"
-            android:maxLines="2"
-            android:ellipsize="end"
-            android:text="114-06-04" />
-
-    </androidx.cardview.widget.CardView>
-
+        app:layout_constraintEnd_toEndOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
