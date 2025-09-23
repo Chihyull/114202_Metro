@@ -13,40 +13,106 @@
 			$this->con = $db->connect();
 		}
 
+		/*get itinerary count */
 
-		/* Metro get station exits */
-	public function getStationExits($stationCode = null) {
-        if ($stationCode) {
-            $stmt = $this->con->prepare("
-                SELECT StationCode, nameE, `Exit` AS ExitCode
-                FROM metro.v_station_exit_place
-                WHERE StationCode = ?
-                ORDER BY `Exit`
-            ");
-            $stmt->bind_param("s", $stationCode);
-        } else {
-            $stmt = $this->con->prepare("
-                SELECT StationCode, nameE, `Exit` AS ExitCode
-                FROM metro.v_station_exit_place
-                ORDER BY StationCode, `Exit`
-            ");
-        }
-        $stmt->execute();
-        $result = $stmt->get_result();
+		public function getItinerary($userNo) {
 
-        $rows = [];
-        while ($row = $result->fetch_assoc()) {
-            // 統一輸出欄位命名：StationCode, NameE, ExitCode
-            $rows[] = [
-                'StationCode' => $row['StationCode'],
-                'NameE'       => $row['nameE'],
-                'ExitCode'    => $row['ExitCode'],
-            ];
-        }
-        return $rows;
-    }
+			$sql = "SELECT ITSNo, Title, StartDate, EndDate, Dest
+					FROM metro.itinerary_setting
+					WHERE UserNo = ?
+					ORDER BY ITSNo DESC";
+					
+			$stmt = $this->con->prepare($sql);
+			if (!$stmt) return [];
+			$stmt->bind_param("i", $userNo);
+			$stmt->execute();
+			$res = $stmt->get_result();
+
+			$items = [];
+			while ($row = $res->fetch_assoc()) {
+				$items[] = [
+					'ITSNo'     => (int)$row['ITSNo'],
+					'Title'     => $row['Title'],
+					'StartDate' => $row['StartDate'],
+					'EndDate'   => $row['EndDate'],
+					'Dest'      => $row['Dest']
+				];
+			}
+			return $items;
+		}
+
+		/*get UserNo & insert itinerary_setting*/
+		public function getUserNo($gmail) {
+			$sql = "SELECT UserNo, IsStop FROM metro.user_profile WHERE Gmail = ? LIMIT 1";
+			$stmt = $this->con->prepare($sql);
+			if (!$stmt) return -1;
+			$stmt->bind_param("s", $gmail);
+			$stmt->execute();
+			$res = $stmt->get_result();
+			if ($res->num_rows === 0) return -1;
+			$row = $res->fetch_assoc();
+			if (strtoupper($row['IsStop']) !== 'N') return -1;
+			return (int)$row['UserNo'];
+		}
+
+		/* check station.StationCode */
+		public function stationCheck($stationCode) {
+			$sql = "SELECT COUNT(*) AS cnt FROM metro.station WHERE StationCode = ? LIMIT 1";
+			$stmt = $this->con->prepare($sql);
+			if (!$stmt) return false;
+			$stmt->bind_param("s", $stationCode);
+			$stmt->execute();
+			$res = $stmt->get_result();
+			if ($row = $res->fetch_assoc()) {
+				return $row['cnt'] > 0;
+			}
+			return false;
+		}
+
+		/* create itinerary (Cover 固定 NULL) */
+		public function createItinerarySetting($userNo, $title, $startDate, $endDate, $dest) {
+			$sql = "INSERT INTO metro.itinerary_setting
+					(UserNo, Title, StartDate, EndDate, Dest, Cover, CreateTime, UpdateTime)
+					VALUES (?, ?, ?, ?, ?, NULL, NOW(), NOW())";
+			$stmt = $this->con->prepare($sql);
+			if (!$stmt) return 0;
+			$stmt->bind_param("issss", $userNo, $title, $startDate, $endDate, $dest);
+			if (!$stmt->execute()) return 0;
+			return (int)$stmt->insert_id;
+		}
 
 
+		/* Metro get station_exits */
+		public function getStationExits($stationCode = null) {
+			if ($stationCode) {
+				$stmt = $this->con->prepare("
+					SELECT StationCode, nameE, `Exit` AS ExitCode
+					FROM metro.v_station_exit_place
+					WHERE StationCode = ?
+					ORDER BY `Exit`
+				");
+				$stmt->bind_param("s", $stationCode);
+			} else {
+				$stmt = $this->con->prepare("
+					SELECT StationCode, nameE, `Exit` AS ExitCode
+					FROM metro.v_station_exit_place
+					ORDER BY StationCode, `Exit`
+				");
+			}
+			$stmt->execute();
+			$result = $stmt->get_result();
+
+			$rows = [];
+			while ($row = $result->fetch_assoc()) {
+				// 統一輸出欄位命名：StationCode, NameE, ExitCode
+				$rows[] = [
+					'StationCode' => $row['StationCode'],
+					'NameE'       => $row['nameE'],
+					'ExitCode'    => $row['ExitCode'],
+				];
+			}
+			return $rows;
+		}
 
 		/* find shortest path */
 		/* 取得整張圖（一次載入）：key = Start，value = 陣列( [neighbor => time] ) */
@@ -167,28 +233,28 @@
 		/* create user */
 		public function createUser($gmail, $name) {
 		// 檢查是否已存在
-		$stmt = $this->con->prepare("SELECT UserNo FROM metro.user_profile WHERE Gmail = ?");
-		$stmt->bind_param("s", $gmail);
-		$stmt->execute();
-		$stmt->store_result();
+			$stmt = $this->con->prepare("SELECT UserNo FROM metro.user_profile WHERE Gmail = ?");
+			$stmt->bind_param("s", $gmail);
+			$stmt->execute();
+			$stmt->store_result();
 
-		if ($stmt->num_rows > 0) {
-			return 2; // 使用者已存在
-		}
+			if ($stmt->num_rows > 0) {
+				return 2; // 使用者已存在
+			}
 
-		// 尚未存在，插入新資料
-		$defaultImage = "default";
-		$stmt = $this->con->prepare("
-			INSERT INTO metro.user_profile (Gmail, UserName, UserImage, IsStop, CreateTime, UpdateTime)
-			VALUES (?, ?, ?, 'N', NOW(), NOW())
-		");
-		$stmt->bind_param("sss", $gmail, $name, $defaultImage);
+			// 尚未存在，插入新資料
+			$defaultImage = "default";
+			$stmt = $this->con->prepare("
+				INSERT INTO metro.user_profile (Gmail, UserName, UserImage, IsStop, CreateTime, UpdateTime)
+				VALUES (?, ?, ?, 'N', NOW(), NOW())
+			");
+			$stmt->bind_param("sss", $gmail, $name, $defaultImage);
 
-		if ($stmt->execute()) {
-			return 1; // 新增成功
-		} else {
-			return 0; // 新增失敗
-		}
-	}			
+			if ($stmt->execute()) {
+				return 1; // 新增成功
+			} else {
+				return 0; // 新增失敗
+			}
+		}			
 	
 	}
