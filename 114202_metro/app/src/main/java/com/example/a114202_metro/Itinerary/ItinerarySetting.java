@@ -1,14 +1,17 @@
 package com.example.a114202_metro.Itinerary;
 
-import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.InputType;
+import android.text.TextWatcher;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -82,18 +85,18 @@ public class ItinerarySetting extends AppCompatActivity {
         editStartDate.setFocusable(false);
         editStartDate.setOnClickListener(v -> showMaterialRangePicker());
 
-        // 目的地：點一下直接選站點（不開啟別的 Activity）
+        // 目的地：點一下開「可搜尋站點」對話框
         editDest.setInputType(InputType.TYPE_NULL);
         editDest.setFocusable(false);
         editDest.setOnClickListener(v -> {
             if (!stationsLoaded) {
-                loadStationsAndShowPicker();
+                loadStationsAndShowSearchDialog();
             } else {
-                showStationPicker();
+                showStationSearchDialog();
             }
         });
 
-        // 送出：呼叫後端新增行程
+        // 新增行程
         btn_confirm.setOnClickListener(v -> {
             String title = editTitleName.getText().toString().trim();
             if (title.isEmpty()) { toast("請輸入行程名稱"); return; }
@@ -110,7 +113,6 @@ public class ItinerarySetting extends AppCompatActivity {
                 MaterialDatePicker.Builder.dateRangePicker();
         builder.setTitleText("選擇行程日期");
 
-        // 預設今天 ~ 今天
         long today = MaterialDatePicker.todayInUtcMilliseconds();
         builder.setSelection(new androidx.core.util.Pair<>(today, today));
 
@@ -130,10 +132,9 @@ public class ItinerarySetting extends AppCompatActivity {
         picker.show(getSupportFragmentManager(), "date_range_picker");
     }
 
-    /** 取站點（一次）→ 顯示清單 */
-    private void loadStationsAndShowPicker() {
+    /** 取站點（一次）→ 顯示「搜尋」對話框 */
+    private void loadStationsAndShowSearchDialog() {
         RequestQueue queue = Volley.newRequestQueue(this);
-        // 你的 getStations.php 支援不帶參數回傳全部
         String url = Constants.URL_GET_STATIONS;
 
         StringRequest req = new StringRequest(Request.Method.GET, url,
@@ -145,7 +146,6 @@ public class ItinerarySetting extends AppCompatActivity {
 
                         for (int i = 0; i < arr.length(); i++) {
                             JSONObject o = arr.getJSONObject(i);
-                            // 你後端回傳鍵：StationCode, NameE（或 Station）
                             String code = o.optString("StationCode", "");
                             String name = o.optString("NameE", o.optString("Station", code));
                             String line = o.optString("Line", o.optString("LineCode", ""));
@@ -155,7 +155,7 @@ public class ItinerarySetting extends AppCompatActivity {
                             stationDisplay.add(formatDisplay(item));
                         }
                         stationsLoaded = true;
-                        showStationPicker();
+                        showStationSearchDialog();
                     } catch (Exception e) {
                         toast("站點載入失敗（解析錯誤）");
                     }
@@ -171,22 +171,75 @@ public class ItinerarySetting extends AppCompatActivity {
         queue.add(req);
     }
 
-    /** 顯示站點清單（AlertDialog 列表，點一下即選） */
-    private void showStationPicker() {
+    /** 顯示「可搜尋」的站點清單（上方搜尋欄、下方清單即時篩選） */
+    private void showStationSearchDialog() {
         if (stationDisplay.isEmpty()) {
             toast("目前沒有可選站點");
             return;
         }
-        String[] items = stationDisplay.toArray(new String[0]);
-        new AlertDialog.Builder(this)
+
+        LinearLayout container = new LinearLayout(this);
+        container.setOrientation(LinearLayout.VERTICAL);
+        int pad = (int) (16 * getResources().getDisplayMetrics().density);
+        container.setPadding(pad, pad, pad, pad);
+
+        EditText etSearch = new EditText(this);
+        etSearch.setHint("搜尋站名 / 線名 / 代碼");
+        container.addView(etSearch);
+
+        ListView listView = new ListView(this);
+        ArrayList<String> data = new ArrayList<>(stationDisplay);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_list_item_1, data);
+        listView.setAdapter(adapter);
+        container.addView(listView);
+
+        AlertDialog dialog = new AlertDialog.Builder(this)
                 .setTitle("選擇目的地站點")
-                .setItems(items, (dialog, which) -> {
-                    StationItem item = stationList.get(which);
-                    destStationCode = item.code;               // 後端要的值
-                    editDest.setText(item.name);               // 顯示人看得懂的名稱（或改成 items[which]）
-                })
+                .setView(container)
                 .setNegativeButton("取消", null)
-                .show();
+                .create();
+
+        etSearch.addTextChangedListener(new TextWatcher() {
+            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override public void onTextChanged(CharSequence s, int start, int before, int count) {
+                adapter.getFilter().filter(s);
+            }
+            @Override public void afterTextChanged(Editable s) {}
+        });
+
+        listView.setOnItemClickListener((parent, view, position, id) -> {
+            String display = (String) parent.getItemAtPosition(position);
+            StationItem chosen = parseDisplayToStation(display);
+            if (chosen != null) {
+                destStationCode = chosen.code;   // 後端要的值
+                editDest.setText(chosen.name);   // 顯示站名
+                dialog.dismiss();
+            } else {
+                toast("解析站點失敗，請再試一次");
+            }
+        });
+
+        dialog.show();
+    }
+
+    /** 從顯示字串反查 StationItem（解析最後的 (CODE)） */
+    private StationItem parseDisplayToStation(String display) {
+        try {
+            int l = display.lastIndexOf('(');
+            int r = display.lastIndexOf(')');
+            if (l >= 0 && r > l) {
+                String code = display.substring(l + 1, r);
+                for (StationItem s : stationList) {
+                    if (code.equals(s.code)) return s;
+                }
+            }
+        } catch (Exception ignore) {}
+        // 退而求其次：完全比對
+        for (int i = 0; i < stationDisplay.size(); i++) {
+            if (stationDisplay.get(i).equals(display)) return stationList.get(i);
+        }
+        return null;
     }
 
     /** 呼叫後端建立行程（沿用 Constants.URL_CREATE_ITINERARY） */
@@ -205,7 +258,7 @@ public class ItinerarySetting extends AppCompatActivity {
                             intent.putExtra("title", title);
                             intent.putExtra("start_date", start);
                             intent.putExtra("end_date", end);
-                            intent.putExtra("dest", destCode); // 先塞代碼，之後可改成站名
+                            intent.putExtra("dest", destCode);
                             startActivity(intent);
                             finish();
                         } else {
@@ -241,21 +294,17 @@ public class ItinerarySetting extends AppCompatActivity {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
 
-    // 簡單的資料容器
+    /** 站點資料容器 */
     private static class StationItem {
         final String code;
         final String name;
         final String line;
-
         StationItem(String code, String name, String line) {
-            this.code = code;
-            this.name = name;
-            this.line = line;
+            this.code = code; this.name = name; this.line = line;
         }
     }
 
     private String formatDisplay(StationItem item) {
-        // 顯示：Name [Line] (Code) ；可依你喜好調整
         if (item.line != null && !item.line.isEmpty()) {
             return item.name + " [" + item.line + "] (" + item.code + ")";
         }

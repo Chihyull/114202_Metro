@@ -10,4 +10,5 @@ public class Constants {
     public static final String URL_GET_STATIONS_EXITS = ROOT_URL + "getStationsExits.php";
     public static final String URL_CREATE_ITINERARY = ROOT_URL + "createItinerary.php";
     public static final String URL_GET_ITINERARY = ROOT_URL + "getItinerary.php";
+    public static final String URL_UPDATE_ITINERARY = ROOT_URL + "updateItinerary.php";
 }

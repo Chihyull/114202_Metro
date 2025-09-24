@@ -51,8 +51,8 @@ public class Itinerary extends AppCompatActivity {
         rv = findViewById(R.id.rvItinerary);
 
         rv.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new ItineraryAdapter(list);
-        rv.setAdapter(adapter);
+        adapter = new ItineraryAdapter(this, list, currentUserGmail);
+        rv.setAdapter(adapter);        rv.setAdapter(adapter);
 
         btn_create.setOnClickListener(v -> {
             Intent intent = new Intent(Itinerary.this, ItinerarySetting.class);
@@ -78,7 +78,10 @@ public class Itinerary extends AppCompatActivity {
                             list.clear();
                             for (int i = 0; i < arr.length(); i++) {
                                 JSONObject o = arr.getJSONObject(i);
+                                // ★ 取 ITSNo
+                                int itsNo = o.optInt("ITSNo", 0);
                                 list.add(new ItineraryItem(
+                                        itsNo,
                                         o.optString("Title"),
                                         o.optString("StartDate"),
                                         o.optString("EndDate"),
@@ -125,4 +128,5 @@ public class Itinerary extends AppCompatActivity {
         findViewById(R.id.content2).setVisibility(View.GONE);
         findViewById(R.id.content3).setVisibility(View.GONE);
     }
+
 }
