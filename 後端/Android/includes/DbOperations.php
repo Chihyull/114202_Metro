@@ -13,15 +13,169 @@
 			$this->con = $db->connect();
 		}
 
-		/*get itinerary count */
+		/* 依經緯度反查最近出口（回傳最接近的出口與距離，單位：公尺） */
+		public function getNearestExitByLatLng($lat, $lng) {
+			$sql = "
+				SELECT 
+					SENo,
+					StationCode,
+					`Exit`,
+					Longitude,
+					Latitude,
+					(
+						2 * 6371000 * ASIN(
+							SQRT(
+								POWER(SIN(RADIANS(? - Latitude) / 2), 2) +
+								COS(RADIANS(Latitude)) * COS(RADIANS(?)) *
+								POWER(SIN(RADIANS(? - Longitude) / 2), 2)
+							)
+						)
+					) AS distance_m
+				FROM metro.station_exit_locat
+				ORDER BY distance_m ASC
+				LIMIT 1
+			";
+			$stmt = $this->con->prepare($sql);
+			if (!$stmt) return null;
 
+			// 參數順序：targetLat, targetLat(再次用於 cos)，targetLng
+			$stmt->bind_param("dds", $lat, $lat, $lng);
+			$stmt->execute();
+			$res = $stmt->get_result();
+			if ($row = $res->fetch_assoc()) {
+				return [
+					'SENo'        => (int)$row['SENo'],
+					'StationCode' => $row['StationCode'],
+					'Exit'        => $row['Exit'],
+					'Longitude'   => (float)$row['Longitude'],
+					'Latitude'    => (float)$row['Latitude'],
+					'distance_m'  => (float)$row['distance_m']
+				];
+			}
+			return null;
+		}
+
+		/* 依 SENo 取單一出口資訊 */
+		public function getExitBySENo($seno) {
+			$sql = "SELECT SENo, StationCode, `Exit`, Longitude, Latitude
+					FROM metro.station_exit_locat
+					WHERE SENo = ?
+					LIMIT 1";
+			$stmt = $this->con->prepare($sql);
+			if (!$stmt) return null;
+
+			$stmt->bind_param("i", $seno);
+			$stmt->execute();
+			$res = $stmt->get_result();
+			if ($row = $res->fetch_assoc()) {
+				return [
+					'SENo'        => (int)$row['SENo'],
+					'StationCode' => $row['StationCode'],
+					'Exit'        => $row['Exit'],
+					'Longitude'   => (float)$row['Longitude'],
+					'Latitude'    => (float)$row['Latitude']
+				];
+			}
+			return null;
+		}
+
+		/* 暫存在 station_place */
+		public function upsertStationPlace($seno, $placeId) {
+			$sql = "INSERT INTO metro.station_place (SENo, PlaceID, UpdateTime)
+					VALUES (?, ?, NOW())
+					ON DUPLICATE KEY UPDATE UpdateTime = NOW()";
+			$stmt = $this->con->prepare($sql);
+			if (!$stmt) return false;
+
+			$stmt->bind_param("is", $seno, $placeId);
+			return $stmt->execute();
+		}
+
+		/* 檢查使用者是否已有同名資料夾；有的話回傳 ULNo，沒有則回 0 */
+		public function getUserLikeByName($userNo, $fileName) {
+			$sql = "SELECT ULNo FROM metro.user_like WHERE UserNo = ? AND FileName = ? LIMIT 1";
+			$stmt = $this->con->prepare($sql);
+			if (!$stmt) return 0;
+			$stmt->bind_param("is", $userNo, $fileName);
+			$stmt->execute();
+			$res = $stmt->get_result();
+			if ($row = $res->fetch_assoc()) {
+				return (int)$row['ULNo'];
+			}
+			return 0;
+		}
+
+		/* 新增我的最愛資料夾 */
+		public function createUserLike($userNo, $fileName) {
+			// 先檢查同名
+			$exists = $this->getUserLikeByName($userNo, $fileName);
+			if ($exists > 0) {
+				return ['status' => 'exists', 'ULNo' => $exists];
+			}
+
+			$sql = "INSERT INTO metro.user_like (FileName, UserNo, CreateTime, UpdateTime)
+					VALUES (?, ?, NOW(), NOW())";
+			$stmt = $this->con->prepare($sql);
+			if (!$stmt) return ['status' => 'error', 'ULNo' => 0];
+
+			$stmt->bind_param("si", $fileName, $userNo);
+			if (!$stmt->execute()) {
+				return ['status' => 'error', 'ULNo' => 0];
+			}
+			return ['status' => 'created', 'ULNo' => (int)$stmt->insert_id];
+		}
+
+		
+		/* 取單筆行程並同時確認擁有者 */
+		public function getItineraryById($itsNo, $userNo) {
+			$sql = "SELECT ITSNo, UserNo, Title, StartDate, EndDate, Dest
+					FROM metro.itinerary_setting
+					WHERE ITSNo = ? AND UserNo = ?
+					LIMIT 1";
+			$stmt = $this->con->prepare($sql);
+			if (!$stmt) return null;
+			$stmt->bind_param("ii", $itsNo, $userNo);
+			$stmt->execute();
+			$res = $stmt->get_result();
+			if ($row = $res->fetch_assoc()) {
+				return $row;
+			}
+			return null;
+		}
+
+		/* 更新行程 */
+		public function updateItinerarySetting($itsNo, $userNo, $title, $startDate, $endDate, $dest) {
+			$sql = "UPDATE metro.itinerary_setting
+					SET Title = ?, StartDate = ?, EndDate = ?, Dest = ?, UpdateTime = NOW()
+					WHERE ITSNo = ? AND UserNo = ?";
+			$stmt = $this->con->prepare($sql);
+			if (!$stmt) return false;
+			$stmt->bind_param("ssssii", $title, $startDate, $endDate, $dest, $itsNo, $userNo);
+			if (!$stmt->execute()) return false;
+			/* 受影響列可能是 0（資料相同），這裡仍回 true 表示請求成功 */
+			return true;
+		}
+
+		/* 新增行程 */
+		public function createItinerarySetting($userNo, $title, $startDate, $endDate, $dest) {
+			$sql = "INSERT INTO metro.itinerary_setting
+					(UserNo, Title, StartDate, EndDate, Dest, Cover, CreateTime, UpdateTime)
+					VALUES (?, ?, ?, ?, ?, NULL, NOW(), NOW())";
+			$stmt = $this->con->prepare($sql);
+			if (!$stmt) return 0;
+			$stmt->bind_param("issss", $userNo, $title, $startDate, $endDate, $dest);
+			if (!$stmt->execute()) return 0;
+			return (int)$stmt->insert_id;
+		}
+
+		/* 查看行程數量 */
 		public function getItinerary($userNo) {
 
 			$sql = "SELECT ITSNo, Title, StartDate, EndDate, Dest
 					FROM metro.itinerary_setting
 					WHERE UserNo = ?
 					ORDER BY ITSNo DESC";
-					
+
 			$stmt = $this->con->prepare($sql);
 			if (!$stmt) return [];
 			$stmt->bind_param("i", $userNo);
@@ -41,7 +195,7 @@
 			return $items;
 		}
 
-		/*get UserNo & insert itinerary_setting*/
+		/* 透過UserNo進行驗證 */
 		public function getUserNo($gmail) {
 			$sql = "SELECT UserNo, IsStop FROM metro.user_profile WHERE Gmail = ? LIMIT 1";
 			$stmt = $this->con->prepare($sql);
@@ -55,7 +209,7 @@
 			return (int)$row['UserNo'];
 		}
 
-		/* check station.StationCode */
+		/* 檢查站點代碼 */
 		public function stationCheck($stationCode) {
 			$sql = "SELECT COUNT(*) AS cnt FROM metro.station WHERE StationCode = ? LIMIT 1";
 			$stmt = $this->con->prepare($sql);
@@ -69,20 +223,7 @@
 			return false;
 		}
 
-		/* create itinerary (Cover 固定 NULL) */
-		public function createItinerarySetting($userNo, $title, $startDate, $endDate, $dest) {
-			$sql = "INSERT INTO metro.itinerary_setting
-					(UserNo, Title, StartDate, EndDate, Dest, Cover, CreateTime, UpdateTime)
-					VALUES (?, ?, ?, ?, ?, NULL, NOW(), NOW())";
-			$stmt = $this->con->prepare($sql);
-			if (!$stmt) return 0;
-			$stmt->bind_param("issss", $userNo, $title, $startDate, $endDate, $dest);
-			if (!$stmt->execute()) return 0;
-			return (int)$stmt->insert_id;
-		}
-
-
-		/* Metro get station_exits */
+		/* 獲取捷運出口資料 */
 		public function getStationExits($stationCode = null) {
 			if ($stationCode) {
 				$stmt = $this->con->prepare("
@@ -114,7 +255,7 @@
 			return $rows;
 		}
 
-		/* find shortest path */
+		/* 查找最短路徑 */
 		/* 取得整張圖（一次載入）：key = Start，value = 陣列( [neighbor => time] ) */
 		public function buildGraph() {
 			$sql = "SELECT Start, End, Time FROM metro.station_path";
@@ -209,7 +350,7 @@
 		}
 
 
-		/* get Metro stations */
+		/* 獲取捷運站點資料 */
 		public function getStations($lineCode = null) {
 			if ($lineCode) {
 				$stmt = $this->con->prepare("SELECT StationCode, Station AS NameE, Line, LineCode FROM metro.v_line_station WHERE LineCode = ? ORDER BY StationCode");
@@ -230,7 +371,7 @@
 		}
 				
 
-		/* create user */
+		/* 建立使用者資料 */
 		public function createUser($gmail, $name) {
 		// 檢查是否已存在
 			$stmt = $this->con->prepare("SELECT UserNo FROM metro.user_profile WHERE Gmail = ?");
