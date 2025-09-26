@@ -16,11 +16,14 @@
         android:roundIcon="@drawable/metro_icon"
         android:supportsRtl="true"
         android:theme="@style/Theme._114202_metro"
-        tools:targetApi="31"
-        android:usesCleartextTraffic="true">
+        android:usesCleartextTraffic="true"
+        tools:targetApi="31">
 
         <activity
-            android:name=".Station.StationPlace"
+            android:name=".Itinerary.ItineraryDetail"
+            android:exported="false" />
+        <activity
+            android:name=".StationPlace.StationPlace"
             android:exported="false" />
         <activity
             android:name=".Station.PathStation"
@@ -29,7 +32,7 @@
             android:name=".Station.Route"
             android:exported="false" />
         <activity
-            android:name=".UserLike"
+            android:name=".Favorite.UserLike"
             android:exported="false" />
         <activity
             android:name=".Station.Station"

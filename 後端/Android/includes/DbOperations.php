@@ -14,17 +14,25 @@
 		}
 
 		public function upsertStationPlace($seno, $placeId) {
-			$sql = "INSERT INTO metro.station_place (SENo, PlaceID, UpdateTime)
-					VALUES (?, ?, NOW())
-					ON DUPLICATE KEY UPDATE UpdateTime = NOW()";
+			return $this->upsertStationPlaceFull($seno, $placeId, null, null);
+		}
+
+		public function upsertStationPlaceFull($seno, $placeId, $photoRef, $nameE) {
+			$sql = "
+				INSERT INTO metro.station_place (SENo, PlaceID, PhotoRef, NameE, UpdateTime)
+				VALUES (?, ?, ?, ?, NOW())
+				ON DUPLICATE KEY UPDATE
+					PhotoRef = VALUES(PhotoRef),
+					NameE    = VALUES(NameE),
+					UpdateTime = NOW()
+			";
 			$stmt = $this->con->prepare($sql);
 			if (!$stmt) return false;
-
-			$stmt->bind_param("is", $seno, $placeId);
+			$stmt->bind_param('isss', $seno, $placeId, $photoRef, $nameE);
 			return $stmt->execute();
-    	}
+		}
 
-    /* 依 SENo 遞增分批抓出口（預設一次 200 筆）*/
+		/** 依 SENo 遞增分批抓出口（原樣保留） */
 		public function getExitBatch($startSENo = 0, $limit = 200) {
 			$sql = "SELECT SENo, StationCode, `Exit`, Longitude, Latitude
 					FROM metro.station_exit_locat
@@ -33,7 +41,6 @@
 					LIMIT ?";
 			$stmt = $this->con->prepare($sql);
 			if (!$stmt) return [];
-
 			$stmt->bind_param("ii", $startSENo, $limit);
 			$stmt->execute();
 			$res = $stmt->get_result();
@@ -50,6 +57,7 @@
 			}
 			return $rows;
 		}
+
 
 		/* 檢查使用者是否已有同名資料夾；有的話回傳 ULNo，沒有則回 0 */
 		public function getUserLikeByName($userNo, $fileName) {
@@ -186,34 +194,59 @@
 		/* 獲取捷運出口資料 */
 		public function getStationExits($stationCode = null) {
 			if ($stationCode) {
-				$stmt = $this->con->prepare("
-					SELECT StationCode, nameE, `Exit` AS ExitCode
+				$sql = "
+					SELECT StationCode, StationName, `Exit` AS ExitCode, photo, PlaceName
 					FROM metro.v_station_exit_place
 					WHERE StationCode = ?
-					ORDER BY `Exit`
-				");
+					ORDER BY `Exit`, PlaceName
+				";
+				$stmt = $this->con->prepare($sql);
+				if (!$stmt) return [];
 				$stmt->bind_param("s", $stationCode);
 			} else {
-				$stmt = $this->con->prepare("
-					SELECT StationCode, nameE, `Exit` AS ExitCode
+				$sql = "
+					SELECT StationCode, StationName, `Exit` AS ExitCode, photo, PlaceName
 					FROM metro.v_station_exit_place
-					ORDER BY StationCode, `Exit`
-				");
+					ORDER BY StationCode, `Exit`, PlaceName
+				";
+				$stmt = $this->con->prepare($sql);
+				if (!$stmt) return [];
 			}
+
 			$stmt->execute();
 			$result = $stmt->get_result();
 
-			$rows = [];
+			// 以 (StationCode, ExitCode) 分組，回傳 Places 陣列（PlaceName + photo）
+			$grouped = []; // key: StationCode|ExitCode
 			while ($row = $result->fetch_assoc()) {
-				// 統一輸出欄位命名：StationCode, NameE, ExitCode
-				$rows[] = [
-					'StationCode' => $row['StationCode'],
-					'NameE'       => $row['nameE'],
-					'ExitCode'    => $row['ExitCode'],
+				$key = $row['StationCode'] . '|' . $row['ExitCode'];
+				if (!isset($grouped[$key])) {
+					$grouped[$key] = [
+						'StationCode'  => $row['StationCode'],
+						'StationName'  => $row['StationName'], // 你要的站名欄位
+						'ExitCode'     => $row['ExitCode'],
+						'Places'       => []
+					];
+				}
+				// 一筆地點
+				$placeName = trim((string)$row['PlaceName']);
+				$photo     = isset($row['photo']) ? trim((string)$row['photo']) : null;
+
+				// 跳過全空的地點
+				if ($placeName === '' && ($photo === null || $photo === '')) {
+					continue;
+				}
+
+				$grouped[$key]['Places'][] = [
+					'PlaceName' => $placeName,
+					'photo'     => $photo
 				];
 			}
-			return $rows;
+
+			// 輸出成陣列
+			return array_values($grouped);
 		}
+
 
 		/* 查找最短路徑 */
 		/* 取得整張圖（一次載入）：key = Start，value = 陣列( [neighbor => time] ) */

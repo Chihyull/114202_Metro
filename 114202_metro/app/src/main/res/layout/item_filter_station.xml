@@ -12,11 +12,11 @@
         android:id="@+id/tv_line_code"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="@style/ContentNotBold"
-        android:text="XX"
-        android:textColor="@color/item_text_color_changed"
-        android:textSize="16sp"
+        android:background="@drawable/custom_btn_changed"
         android:gravity="center"
-        android:background="@drawable/custom_btn_changed"/>
+        android:text="XX"
+        android:textAppearance="@style/ContentNotBold"
+        android:textColor="@color/item_text_color_changed"
+        android:textSize="16sp" />
 
 </LinearLayout>

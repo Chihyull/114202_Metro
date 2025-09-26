@@ -20,14 +20,14 @@
             android:paddingTop="12dp"
             android:paddingBottom="12dp">
 
-            <!-- 圓角圖片：地點照片 -->
-            <com.google.android.material.imageview.ShapeableImageView
+            <!-- 圖片區：用來顯示地點照片 -->
+            <ImageView
                 android:id="@+id/placeImage"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_marginEnd="12dp"
                 android:scaleType="centerCrop"
-                app:shapeAppearanceOverlay="@style/RoundedImageView" />
+                android:background="@drawable/station_brown" />
 
             <!-- 地名 -->
             <TextView
@@ -38,40 +38,33 @@
                 android:layout_gravity="center_vertical"
                 android:text="test"
                 android:textAppearance="@style/ContentNotBold"
-                android:textSize="16sp"
+                android:textSize="32sp"
                 android:gravity="start" />
         </LinearLayout>
 
         <!-- 右上角：愛心圖示 -->
         <ImageView
             android:id="@+id/btnFavorite"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_gravity="top|end"
-            android:layout_marginTop="12dp"
-            android:layout_marginEnd="12dp"
+            android:layout_margin="8dp"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:padding="2dp"
+            android:padding="4dp"
             android:src="@drawable/button_like"
             android:contentDescription="收藏" />
 
-        <!-- 右下角：加號圖示 -->
+        <!-- 右下角：減號圖示 -->
         <ImageView
             android:id="@+id/btnAdd"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_gravity="bottom|end"
-            android:layout_marginBottom="12dp"
-            android:layout_marginEnd="12dp"
+            android:layout_margin="8dp"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:padding="2dp"
-            android:src="@drawable/button_plus"
+            android:padding="4dp"
+            android:src="@drawable/button_remove"
             android:contentDescription="新增到行程" />
     </FrameLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/sub" />
 
 </LinearLayout>

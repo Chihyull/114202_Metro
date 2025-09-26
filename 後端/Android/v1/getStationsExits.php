@@ -22,5 +22,5 @@ try {
         'ok'    => false,
         'error' => 'server_error',
         'msg'   => $e->getMessage()
-    ], JSON_UNESCAPED_UNICODE);
+    ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
 }

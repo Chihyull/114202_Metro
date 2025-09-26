@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.a114202_metro.R;
+import com.example.a114202_metro.StationPlace.StationPlace;
 
 import java.util.ArrayList;
 import java.util.List;

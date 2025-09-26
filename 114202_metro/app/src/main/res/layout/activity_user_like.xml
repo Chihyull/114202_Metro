@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".UserLike">
+    tools:context=".Favorite.UserLike">
 
     <TextView
         android:id="@+id/title_like"
@@ -19,7 +19,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_create"
@@ -41,7 +40,7 @@
         android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/title_like"/>
+        app:layout_constraintTop_toBottomOf="@+id/title_like" />
 
     <TextView
         android:id="@+id/content2"
@@ -54,7 +53,7 @@
         android:layout_marginTop="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/like"/>
+        app:layout_constraintTop_toBottomOf="@+id/like" />
 
     <TextView
         android:id="@+id/content3"
@@ -68,44 +67,22 @@
         android:layout_marginTop="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/content2"/>
+        app:layout_constraintTop_toBottomOf="@+id/content2" />
 
-    <LinearLayout
-        android:id="@+id/layout_folder_item"
+    <!-- 只是一個容器，實際 item 由 Adapter 依資料數量產生 -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_folders"
         android:layout_width="0dp"
-        android:layout_height="80dp"
-        android:layout_marginTop="30dp"
+        android:layout_height="0dp"
         android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp"
-        android:background="@drawable/custom_like_file"
-        android:gravity="center_vertical"
-        android:paddingStart="15dp"
-        android:paddingEnd="15dp"
-        android:orientation="horizontal"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="20dp"
         android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@+id/title_like"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-
-        <!-- 左邊的圖示 -->
-        <ImageView
-            android:id="@+id/img_folder_icon"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:src="@drawable/icon_like_click"
-            android:contentDescription="Folder Icon" />
-
-        <!-- 檔案名稱 -->
-        <TextView
-            android:id="@+id/text_folder_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:text="My Favorite"
-            android:textSize="20sp"
-            android:textColor="@color/sub"
-            android:textAppearance="@style/ContentExtraBold" />
-    </LinearLayout>
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <!-- 對話框 -->
     <androidx.cardview.widget.CardView
@@ -185,6 +162,5 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
