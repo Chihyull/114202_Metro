@@ -1,4 +1,5 @@
 <?php 
+
 	// db info
 	define('DB_NAME','metro');
 	define('DB_USER','metro');
