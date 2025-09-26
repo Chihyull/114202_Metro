@@ -13,73 +13,6 @@
 			$this->con = $db->connect();
 		}
 
-		/* 依經緯度反查最近出口（回傳最接近的出口與距離，單位：公尺） */
-		public function getNearestExitByLatLng($lat, $lng) {
-			$sql = "
-				SELECT 
-					SENo,
-					StationCode,
-					`Exit`,
-					Longitude,
-					Latitude,
-					(
-						2 * 6371000 * ASIN(
-							SQRT(
-								POWER(SIN(RADIANS(? - Latitude) / 2), 2) +
-								COS(RADIANS(Latitude)) * COS(RADIANS(?)) *
-								POWER(SIN(RADIANS(? - Longitude) / 2), 2)
-							)
-						)
-					) AS distance_m
-				FROM metro.station_exit_locat
-				ORDER BY distance_m ASC
-				LIMIT 1
-			";
-			$stmt = $this->con->prepare($sql);
-			if (!$stmt) return null;
-
-			// 參數順序：targetLat, targetLat(再次用於 cos)，targetLng
-			$stmt->bind_param("dds", $lat, $lat, $lng);
-			$stmt->execute();
-			$res = $stmt->get_result();
-			if ($row = $res->fetch_assoc()) {
-				return [
-					'SENo'        => (int)$row['SENo'],
-					'StationCode' => $row['StationCode'],
-					'Exit'        => $row['Exit'],
-					'Longitude'   => (float)$row['Longitude'],
-					'Latitude'    => (float)$row['Latitude'],
-					'distance_m'  => (float)$row['distance_m']
-				];
-			}
-			return null;
-		}
-
-		/* 依 SENo 取單一出口資訊 */
-		public function getExitBySENo($seno) {
-			$sql = "SELECT SENo, StationCode, `Exit`, Longitude, Latitude
-					FROM metro.station_exit_locat
-					WHERE SENo = ?
-					LIMIT 1";
-			$stmt = $this->con->prepare($sql);
-			if (!$stmt) return null;
-
-			$stmt->bind_param("i", $seno);
-			$stmt->execute();
-			$res = $stmt->get_result();
-			if ($row = $res->fetch_assoc()) {
-				return [
-					'SENo'        => (int)$row['SENo'],
-					'StationCode' => $row['StationCode'],
-					'Exit'        => $row['Exit'],
-					'Longitude'   => (float)$row['Longitude'],
-					'Latitude'    => (float)$row['Latitude']
-				];
-			}
-			return null;
-		}
-
-		/* 暫存在 station_place */
 		public function upsertStationPlace($seno, $placeId) {
 			$sql = "INSERT INTO metro.station_place (SENo, PlaceID, UpdateTime)
 					VALUES (?, ?, NOW())
@@ -89,6 +22,33 @@
 
 			$stmt->bind_param("is", $seno, $placeId);
 			return $stmt->execute();
+    	}
+
+    /* 依 SENo 遞增分批抓出口（預設一次 200 筆）*/
+		public function getExitBatch($startSENo = 0, $limit = 200) {
+			$sql = "SELECT SENo, StationCode, `Exit`, Longitude, Latitude
+					FROM metro.station_exit_locat
+					WHERE SENo > ?
+					ORDER BY SENo ASC
+					LIMIT ?";
+			$stmt = $this->con->prepare($sql);
+			if (!$stmt) return [];
+
+			$stmt->bind_param("ii", $startSENo, $limit);
+			$stmt->execute();
+			$res = $stmt->get_result();
+
+			$rows = [];
+			while ($row = $res->fetch_assoc()) {
+				$rows[] = [
+					'SENo'        => (int)$row['SENo'],
+					'StationCode' => $row['StationCode'],
+					'Exit'        => $row['Exit'],
+					'Longitude'   => (float)$row['Longitude'],
+					'Latitude'    => (float)$row['Latitude']
+				];
+			}
+			return $rows;
 		}
 
 		/* 檢查使用者是否已有同名資料夾；有的話回傳 ULNo，沒有則回 0 */
