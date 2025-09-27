@@ -1,35 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/item_folder_root"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/item_root"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/custom_like_file"
-    android:foreground="?attr/selectableItemBackground"
-    android:gravity="center_vertical"
     android:minHeight="80dp"
-    android:orientation="horizontal"
-    android:paddingStart="15dp"
-    android:paddingTop="12dp"
-    android:paddingEnd="15dp"
-    android:paddingBottom="12dp">
+    android:padding="8dp">
 
-    <ImageView
-        android:id="@+id/img_folder_icon"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:contentDescription="Folder Icon"
-        android:src="@drawable/icon_like_click" />
+    <!-- 背景層：右側直立長方形 Delete Bar（左滑才會露出） -->
+    <FrameLayout
+        android:id="@+id/bg_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/text_folder_name"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_weight="1"
-        android:ellipsize="end"
-        android:singleLine="true"
-        android:text="My Favorite"
-        android:textAppearance="@style/ContentExtraBold"
-        android:textColor="@color/sub"
-        android:textSize="20sp" />
-</LinearLayout>
+        <!-- 右側貼齊的直立長方形按鈕 -->
+        <FrameLayout
+            android:id="@+id/btnDeleteBar"
+            android:layout_width="72dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="end"
+            android:background="@drawable/custom_btn_delete"
+            android:clickable="true"
+            android:focusable="true"
+            android:visibility="invisible">
+
+        <!-- 中間放 icon（白色垃圾桶） -->
+            <ImageView
+                android:id="@+id/imgDeleteIcon"
+                android:layout_width="27dp"
+                android:layout_height="34dp"
+                android:layout_gravity="center"
+                android:contentDescription="Delete"
+                android:src="@drawable/icon_delete" />
+    </FrameLayout>
+</FrameLayout>
+
+    <!-- 前景層：你的原本內容；只移動這層以露出右側 Delete Bar -->
+        <FrameLayout
+            android:id="@+id/foreground_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/item_folder_root"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/custom_like_file"
+            android:foreground="?attr/selectableItemBackground"
+            android:gravity="center_vertical"
+            android:minHeight="80dp"
+            android:orientation="horizontal"
+            android:paddingStart="15dp"
+            android:paddingTop="12dp"
+            android:paddingEnd="15dp"
+            android:paddingBottom="12dp">
+
+            <ImageView
+                android:id="@+id/img_folder_icon"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:contentDescription="Folder Icon"
+                android:src="@drawable/icon_like_click" />
+
+            <TextView
+                android:id="@+id/text_folder_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:text="My Favorite"
+                android:textAppearance="@style/ContentExtraBold"
+                android:textColor="@color/sub"
+                android:textSize="20sp" />
+        </LinearLayout>
+
+        <!-- 右下角編輯按鈕（保留你的設計） -->
+        <ImageButton
+            android:id="@+id/btnEdit"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/icon_edit"
+            android:scaleType="centerInside"
+            android:adjustViewBounds="true"
+            android:padding="4dp"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="12dp" />
+        </FrameLayout>
+</FrameLayout>

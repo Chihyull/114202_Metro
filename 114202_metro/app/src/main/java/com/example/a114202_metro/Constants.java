@@ -1,8 +1,6 @@
 package com.example.a114202_metro;
 
 public class Constants {
-    // wifi
-    //private static final String ROOT_URL = "http://172.20.10.4/Android/v1/";
     private static final String ROOT_URL = "http://140.131.115.94/Android/v1/";
     public static final String URL_REGISTER = ROOT_URL + "createUser.php";
     public static final String URL_GET_STATIONS = ROOT_URL + "getStations.php";
@@ -11,4 +9,8 @@ public class Constants {
     public static final String URL_CREATE_ITINERARY = ROOT_URL + "createItinerary.php";
     public static final String URL_GET_ITINERARY = ROOT_URL + "getItinerary.php";
     public static final String URL_UPDATE_ITINERARY = ROOT_URL + "updateItinerary.php";
+    public static final String URL_GET_USERLIKE = ROOT_URL + "getUserLike.php";
+    public static final String URL_CREATE_USERLIKE = ROOT_URL + "createUserLike.php";
+    public static final String URL_UPDATE_USERLIKE = ROOT_URL + "updateUserLike.php";
+    public static final String URL_DELETE_USERLIKE = ROOT_URL + "deleteUserLike.php";
 }
