@@ -13,6 +13,8 @@
 			$this->con = $db->connect();
 		}
 
+		/* ========================= Station Place（你原本的） ========================= */
+
 		public function upsertStationPlace($seno, $placeId) {
 			return $this->upsertStationPlaceFull($seno, $placeId, null, null);
 		}
@@ -58,8 +60,9 @@
 			return $rows;
 		}
 
+		/* ========================= 收藏功能：輔助查詢 ========================= */
 
-		/* 檢查使用者是否已有同名資料夾；有的話回傳 ULNo，沒有則回 0 */
+		/** 由使用者 + 資料夾名稱取得 ULNo，不存在回傳 0 */
 		public function getUserLikeByName($userNo, $fileName) {
 			$sql = "SELECT ULNo FROM metro.user_like WHERE UserNo = ? AND FileName = ? LIMIT 1";
 			$stmt = $this->con->prepare($sql);
@@ -73,8 +76,18 @@
 			return 0;
 		}
 
-		/* ===========================收藏功能開始=========================== */
-		/* 新增我的最愛資料夾 */
+		/** 檢查資料夾是否屬於該使用者（封裝，供 API 使用） */
+		public function folderOwnedBy($ulNo, $userNo) {
+			$stmt = $this->con->prepare("SELECT 1 FROM metro.user_like WHERE ULNo=? AND UserNo=? LIMIT 1");
+			if (!$stmt) return false;
+			$stmt->bind_param("ii", $ulNo, $userNo);
+			$stmt->execute();
+			return $stmt->get_result()->num_rows > 0;
+		}
+
+		/* =========================== 收藏功能開始 =========================== */
+
+		/** 新增我的最愛資料夾 */
 		public function createUserLike($userNo, $fileName) {
 			// 先檢查同名
 			$exists = $this->getUserLikeByName($userNo, $fileName);
@@ -94,6 +107,7 @@
 			return ['status' => 'created', 'ULNo' => (int)$stmt->insert_id];
 		}
 
+		/** INSERT ... ON DUPLICATE：需要 UNIQUE(ULNo, SPNo) 才能生效 */
 		public function upsertFavorite($ulNo, $spNo, $isFavorite) {
 			$sql = "
 				INSERT INTO metro.user_like_place (ULNo, SPNo, IsFavorite, CreateTime, UpdateTime)
@@ -108,31 +122,34 @@
 			$stmt->bind_param("iii", $ulNo, $spNo, $isFavorite);
 			return $stmt->execute();
 		}
+
 		/** 設定收藏為 1（加入收藏；若不存在則建立） */
 		public function setFavorite($ulNo, $spNo) {
 			return $this->upsertFavorite($ulNo, $spNo, 1);
 		}
+
 		/** 設定收藏為 0（取消收藏；若不存在則補一筆 0 以保持一致語意） */
 		public function unsetFavorite($ulNo, $spNo) {
 			$sql = "UPDATE metro.user_like_place
-			        SET IsFavorite = 0, UpdateTime = NOW()
-			        WHERE ULNo = ? AND SPNo = ?";
+					SET IsFavorite = 0, UpdateTime = NOW()
+					WHERE ULNo = ? AND SPNo = ?";
 			$stmt = $this->con->prepare($sql);
 			if (!$stmt) return false;
 			$stmt->bind_param("ii", $ulNo, $spNo);
 			$stmt->execute();
 
-			// 若沒有任何列被更新，補插一筆 IsFavorite=0（可選；保留紀錄一致性）
+			// 若沒有任何列被更新，補插一筆 IsFavorite=0（保留紀錄一致性）
 			if ($stmt->affected_rows === 0) {
 				return $this->upsertFavorite($ulNo, $spNo, 0);
 			}
 			return true;
 		}
+
 		/** 切換收藏（按一下就反轉）；若不存在，視為加入收藏（1） */
 		public function toggleFavorite($ulNo, $spNo) {
 			$sql = "UPDATE metro.user_like_place
-			        SET IsFavorite = 1 - IsFavorite, UpdateTime = NOW()
-			        WHERE ULNo = ? AND SPNo = ?";
+					SET IsFavorite = 1 - IsFavorite, UpdateTime = NOW()
+					WHERE ULNo = ? AND SPNo = ?";
 			$stmt = $this->con->prepare($sql);
 			if (!$stmt) return false;
 			$stmt->bind_param("ii", $ulNo, $spNo);
@@ -144,11 +161,12 @@
 			}
 			return true;
 		}
+
 		/** 刪除整個資料夾時，把該資料夾的所有收藏都設為 0（不刪紀錄，保留歷史） */
 		public function clearFolderFavorites($ulNo) {
 			$sql = "UPDATE metro.user_like_place
-			        SET IsFavorite = 0, UpdateTime = NOW()
-			        WHERE ULNo = ?";
+					SET IsFavorite = 0, UpdateTime = NOW()
+					WHERE ULNo = ?";
 			$stmt = $this->con->prepare($sql);
 			if (!$stmt) return false;
 			$stmt->bind_param("i", $ulNo);
@@ -183,35 +201,30 @@
 			return $items;
 		}
 
-		/* 刪除我的最愛資料夾（先清 IsFavorite=0→刪 mapping→刪資料夾本身） */
+		/** 刪除我的最愛資料夾（先清 0→刪 mapping→刪資料夾本身） */
 		public function deleteUserLike($userNo, $ulNo) {
-			// 確認資料夾歸屬
-			$chk = $this->con->prepare("SELECT 1 FROM metro.user_like WHERE ULNo=? AND UserNo=? LIMIT 1");
-			if (!$chk) return false;
-			$chk->bind_param("ii", $ulNo, $userNo);
-			$chk->execute();
-			$res = $chk->get_result();
-			if ($res->num_rows === 0) return false;
+			// 使用封裝好的歸屬檢查
+			if (!$this->folderOwnedBy($ulNo, $userNo)) return false;
 
 			$this->con->begin_transaction();
 			try {
-				// 1) 全部標 0（符合你的規則）
+				// 1) 全部標 0（符合規則）
 				$stmt = $this->con->prepare("UPDATE metro.user_like_place SET IsFavorite=0, UpdateTime=NOW() WHERE ULNo=?");
-				if (!$stmt) throw new Exception('prep fail: update favorites 0');
+				if (!$stmt) throw new \Exception('prep fail: update favorites 0');
 				$stmt->bind_param("i", $ulNo);
-				if (!$stmt->execute()) throw new Exception('exec fail: update favorites 0');
+				if (!$stmt->execute()) throw new \Exception('exec fail: update favorites 0');
 
-				// 2) 真的移除 mapping（避免外鍵擋刪）
+				// 2) 移除 mapping（避免外鍵擋刪）
 				$stmt = $this->con->prepare("DELETE FROM metro.user_like_place WHERE ULNo=?");
-				if (!$stmt) throw new Exception('prep fail: delete mapping');
+				if (!$stmt) throw new \Exception('prep fail: delete mapping');
 				$stmt->bind_param("i", $ulNo);
-				if (!$stmt->execute()) throw new Exception('exec fail: delete mapping');
+				if (!$stmt->execute()) throw new \Exception('exec fail: delete mapping');
 
 				// 3) 刪資料夾
 				$stmt = $this->con->prepare("DELETE FROM metro.user_like WHERE ULNo=? AND UserNo=?");
-				if (!$stmt) throw new Exception('prep fail: delete folder');
+				if (!$stmt) throw new \Exception('prep fail: delete folder');
 				$stmt->bind_param("ii", $ulNo, $userNo);
-				if (!$stmt->execute()) throw new Exception('exec fail: delete folder');
+				if (!$stmt->execute()) throw new \Exception('exec fail: delete folder');
 
 				$this->con->commit();
 				return true;
@@ -221,9 +234,9 @@
 			}
 		}
 
-		/*（可選）用名稱刪除：先找 ULNo 再呼叫上面 */
+		/** （可選）用名稱刪除：先找 ULNo 再呼叫上面 */
 		public function deleteUserLikeByName($userNo, $fileName) {
-			$ulNo = $this->getUserLikeByName($userNo, $fileName); // 你既有的方法
+			$ulNo = $this->getUserLikeByName($userNo, $fileName);
 			if ($ulNo <= 0) return false;
 			return $this->deleteUserLike($userNo, $ulNo);
 		}
@@ -274,8 +287,9 @@
 			}
 			return 0;
 		}
-		/* ===========================收藏功能結束=========================== */
-		
+
+		/* =========================== 收藏功能結束 =========================== */
+
 		/* 取單筆行程並同時確認擁有者 */
 		public function getItineraryById($itsNo, $userNo) {
 			$sql = "SELECT ITSNo, UserNo, Title, StartDate, EndDate, Dest
@@ -302,7 +316,7 @@
 			if (!$stmt) return false;
 			$stmt->bind_param("ssssii", $title, $startDate, $endDate, $dest, $itsNo, $userNo);
 			if (!$stmt->execute()) return false;
-			/* 受影響列可能是 0（資料相同），這裡仍回 true 表示請求成功 */
+			// 受影響列可能是 0（資料相同），這裡仍回 true 表示請求成功
 			return true;
 		}
 
@@ -320,12 +334,10 @@
 
 		/* 查看行程數量 */
 		public function getItinerary($userNo) {
-
 			$sql = "SELECT ITSNo, Title, StartDate, EndDate, Dest
 					FROM metro.itinerary_setting
 					WHERE UserNo = ?
 					ORDER BY ITSNo DESC";
-
 			$stmt = $this->con->prepare($sql);
 			if (!$stmt) return [];
 			$stmt->bind_param("i", $userNo);
@@ -345,7 +357,7 @@
 			return $items;
 		}
 
-		/* 透過UserNo進行驗證 */
+		/* 透過 Gmail 取得 UserNo；停用或不存在回 -1（相容你現有 API 判斷） */
 		public function getUserNo($gmail) {
 			$sql = "SELECT UserNo, IsStop FROM metro.user_profile WHERE Gmail = ? LIMIT 1";
 			$stmt = $this->con->prepare($sql);
@@ -373,7 +385,7 @@
 			return false;
 		}
 
-		/* 獲取捷運出口資料 */
+		/* 獲取捷運出口資料（彙整成每個 (StationCode, Exit) 一組，含 Places 陣列） */
 		public function getStationExits($stationCode = null) {
 			if ($stationCode) {
 				$sql = "
@@ -405,7 +417,7 @@
 				if (!isset($grouped[$key])) {
 					$grouped[$key] = [
 						'StationCode'  => $row['StationCode'],
-						'StationName'  => $row['StationName'], // 你要的站名欄位
+						'StationName'  => $row['StationName'],
 						'ExitCode'     => $row['ExitCode'],
 						'Places'       => []
 					];
@@ -428,7 +440,6 @@
 			// 輸出成陣列
 			return array_values($grouped);
 		}
-
 
 		/* 查找最短路徑 */
 		/* 取得整張圖（一次載入）：key = Start，value = 陣列( [neighbor => time] ) */
