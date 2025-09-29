@@ -13,4 +13,7 @@ public class Constants {
     public static final String URL_CREATE_USERLIKE = ROOT_URL + "createUserLike.php";
     public static final String URL_UPDATE_USERLIKE = ROOT_URL + "updateUserLike.php";
     public static final String URL_DELETE_USERLIKE = ROOT_URL + "deleteUserLike.php";
+    public static final String URL_GET_USERLIKEINFOLDER = ROOT_URL + "getUserLikeInFolder.php";
+    public static final String URL_UPDATE_HEART = ROOT_URL + "setFavorite.php";
+    public static final String URL_UNSET_HEART = ROOT_URL + "unsetFavorite.php";
 }

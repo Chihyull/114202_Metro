@@ -24,7 +24,7 @@
     <EditText
         android:id="@+id/et_start"
         android:background="@drawable/custom_input"
-        android:hint="起點站"
+        android:hint="Start"
         android:paddingLeft="10dp"
         android:textSize="14sp"
         android:textAppearance="@style/ContentNotBold"
@@ -39,7 +39,7 @@
     <EditText
         android:id="@+id/et_end"
         android:background="@drawable/custom_input"
-        android:hint="終點站"
+        android:hint="End"
         android:paddingLeft="10dp"
         android:textSize="14sp"
         android:textAppearance="@style/ContentNotBold"
@@ -55,7 +55,7 @@
         android:id="@+id/btn_search_route"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="查詢路徑"
+        android:text="Search Route"
         android:layout_below="@+id/et_end"
         android:layout_marginTop="15dp"
         android:layout_centerHorizontal="true"/>

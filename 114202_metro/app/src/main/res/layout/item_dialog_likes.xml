@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card_choose_folder"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="24dp"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="10dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/sub"
+        android:padding="16dp">
+
+        <!-- 標題 -->
+        <TextView
+            android:id="@+id/tv_title_choose_folder"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Save to folder"
+            android:textAppearance="@style/ContentExtraBold"
+            android:textColor="@color/main"
+            android:textSize="18sp"
+            android:textAlignment="center"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- ✅ 右上角加號：隨時可新增收藏夾 -->
+        <ImageButton
+            android:id="@+id/btn_add_folder"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:background="@drawable/icon_plus_main"
+            android:padding="2dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- （選用）只有一個資料夾時顯示的提示列；預設 GONE -->
+        <LinearLayout
+            android:id="@+id/row_new_folder"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:gravity="center_vertical"
+            android:padding="10dp"
+            android:background="@drawable/custom_like_file"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/tv_title_choose_folder"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/icon_plus"
+                android:contentDescription="Create" />
+
+            <TextView
+                android:id="@+id/tv_new_folder"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:text="Create new folder"
+                android:textAppearance="@style/ContentExtraBold"
+                android:textColor="@color/main"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <!-- 資料夾清單 -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_folder_choices"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:overScrollMode="ifContentScrolls"
+            app:layout_constraintTop_toBottomOf="@id/row_new_folder"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- 分隔線 -->
+        <View
+            android:id="@+id/divider_buttons"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="12dp"
+            android:background="@color/main"
+            app:layout_constraintTop_toBottomOf="@id/rv_folder_choices"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- 底部按鈕：Cancel / Save -->
+        <LinearLayout
+            android:id="@+id/layout_buttons"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@id/divider_buttons"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_cancel_pick"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/custom_btn_dialog"
+                android:text="Cancel"
+                android:textAppearance="@style/ContentExtraBold"
+                android:textColor="@color/sub"
+                android:textSize="16sp" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_confirm_pick"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/custom_btn_dialog"
+                android:text="Save"
+                android:textAppearance="@style/ContentExtraBold"
+                android:textColor="@color/sub"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>
