@@ -289,7 +289,8 @@
 		}
 
 		/* =========================== 收藏功能結束 =========================== */
-
+		
+		/* =========================== 行程功能開始 =========================== */
 		/* 取單筆行程並同時確認擁有者 */
 		public function getItineraryById($itsNo, $userNo) {
 			$sql = "SELECT ITSNo, UserNo, Title, StartDate, EndDate, Dest
@@ -322,15 +323,48 @@
 
 		/* 新增行程 */
 		public function createItinerarySetting($userNo, $title, $startDate, $endDate, $dest) {
-			$sql = "INSERT INTO metro.itinerary_setting
-					(UserNo, Title, StartDate, EndDate, Dest, Cover, CreateTime, UpdateTime)
-					VALUES (?, ?, ?, ?, ?, NULL, NOW(), NOW())";
-			$stmt = $this->con->prepare($sql);
-			if (!$stmt) return 0;
-			$stmt->bind_param("issss", $userNo, $title, $startDate, $endDate, $dest);
-			if (!$stmt->execute()) return 0;
-			return (int)$stmt->insert_id;
+			$this->con->begin_transaction();
+			try {
+				// 1) 先新增封面
+				$sql = "INSERT INTO metro.itinerary_setting
+						(UserNo, Title, StartDate, EndDate, Dest, Cover, CreateTime, UpdateTime)
+						VALUES (?, ?, ?, ?, ?, NULL, NOW(), NOW())";
+				$stmt = $this->con->prepare($sql);
+				if (!$stmt) { throw new Exception("prepare insert cover fail: ".$this->con->error); }
+
+				$stmt->bind_param("issss", $userNo, $title, $startDate, $endDate, $dest);
+				if (!$stmt->execute()) { throw new Exception("insert cover fail: ".$stmt->error); }
+
+				$itsNo = (int)$stmt->insert_id;  // 子表 FK 會用到這個 ITSNo
+
+				// 2) 依 Start~End 生成 Day1..N（用 PHP 算日期最穩，避免預備語法的 INTERVAL 陷阱）
+				$d1 = new DateTime($startDate);
+				$d2 = new DateTime($endDate);
+				$days = $d1->diff($d2)->days + 1;
+
+				$ins = $this->con->prepare(
+					"INSERT INTO metro.itinerary (ITSNo, `Date`, `Day`, CreateTime, UpdateTime)
+					VALUES (?, ?, ?, NOW(), NOW())"
+				);
+				if (!$ins) { throw new Exception("prepare insert day fail: ".$this->con->error); }
+
+				for ($day = 1; $day <= $days; $day++) {
+					$curDate = (clone $d1)->modify('+'.($day-1).' day')->format('Y-m-d');
+					$ins->bind_param("isi", $itsNo, $curDate, $day);
+					if (!$ins->execute()) {
+						throw new Exception("insert day #{$day} fail: ".$ins->error);
+					}
+				}
+
+				$this->con->commit();
+				return $itsNo;
+			} catch (Exception $e) {
+				$this->con->rollback();
+				echo "DB Error: " . $e->getMessage(); //debug
+				return 0;
+			}
 		}
+
 
 		/* 查看行程數量 */
 		public function getItinerary($userNo) {
@@ -356,6 +390,7 @@
 			}
 			return $items;
 		}
+		/* =========================== 行程功能結束 =========================== */
 
 		/* 透過 Gmail 取得 UserNo；停用或不存在回 -1（相容你現有 API 判斷） */
 		public function getUserNo($gmail) {
