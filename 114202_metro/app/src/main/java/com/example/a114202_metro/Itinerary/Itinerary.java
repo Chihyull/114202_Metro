@@ -35,7 +35,7 @@ import java.util.Map;
 
 public class Itinerary extends AppCompatActivity {
 
-    Button btn_create;
+    Button btn_create, btn_ai;
     RecyclerView rv;
     ItineraryAdapter adapter;
     List<ItineraryItem> list = new ArrayList<>();
@@ -48,11 +48,18 @@ public class Itinerary extends AppCompatActivity {
         setContentView(R.layout.activity_itinerary);
 
         btn_create = findViewById(R.id.btn_create);
+        btn_ai = findViewById(R.id.btn_ai);
         rv = findViewById(R.id.rvItinerary);
 
         rv.setLayoutManager(new LinearLayoutManager(this));
         adapter = new ItineraryAdapter(this, list, currentUserGmail);
-        rv.setAdapter(adapter);        rv.setAdapter(adapter);
+        rv.setAdapter(adapter);
+
+        btn_ai.setOnClickListener(v -> {
+            Intent intent = new Intent(Itinerary.this, ItinerarySetting.class);
+            intent.putExtra("EXTRA_AI_MODE", true); // ← 新增
+            startActivity(intent);
+        });
 
         btn_create.setOnClickListener(v -> {
             Intent intent = new Intent(Itinerary.this, ItinerarySetting.class);

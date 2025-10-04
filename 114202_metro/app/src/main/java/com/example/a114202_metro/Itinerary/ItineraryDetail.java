@@ -1,14 +1,23 @@
 package com.example.a114202_metro.Itinerary;
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -43,11 +52,13 @@ public class ItineraryDetail extends AppCompatActivity {
     private TextView tvDate,tvWeekday;
     private RecyclerView rvDayPlans;
     private ShapeableImageView btnAddDay, btnRemoveDay;
-
+    private AppCompatButton btnQuickAdd;
+    private int selectedDayIndex = 0;
     private final SimpleDateFormat ymd = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
     private final SimpleDateFormat weekFmt = new SimpleDateFormat("EEEE", Locale.ENGLISH);
     private final List<String> dateList = new ArrayList<>(); // 每個 Day 對應的日期字串 yyyy-MM-dd
     private DayPlanAdapter dayAdapter;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -74,6 +85,7 @@ public class ItineraryDetail extends AppCompatActivity {
         rvDayPlans    = findViewById(R.id.rvDayPlans);
         btnAddDay     = findViewById(R.id.btnAddDay);
         btnRemoveDay  = findViewById(R.id.btnRemoveDay);
+        btnQuickAdd   = findViewById(R.id.btnQuickAdd);
 
         // RecyclerView 先放空佈局 Adapter（之後再串實際資料）
         rvDayPlans.setLayoutManager(new LinearLayoutManager(this));
@@ -83,9 +95,10 @@ public class ItineraryDetail extends AppCompatActivity {
         // 依日期區間建立 Day 1..N
         buildDaysFromRange(startDate, endDate);
 
-        // Day + / -（目前僅操作 UI；真正新增/刪除天數的後端後續再接）
         btnAddDay.setOnClickListener(v -> addOneDay());
         btnRemoveDay.setOnClickListener(v -> removeLastDay());
+        btnQuickAdd.setOnClickListener(v -> showChooseSourceDialog());
+
     }
 
     private void buildDaysFromRange(String start, String end) {
@@ -116,6 +129,8 @@ public class ItineraryDetail extends AppCompatActivity {
     private void updateHeaderForDay(int index) {
         if (index < 0 || index >= dateList.size()) return;
 
+        selectedDayIndex = index;
+
         try {
             Calendar c = Calendar.getInstance(TimeZone.getTimeZone("Asia/Taipei"), Locale.TAIWAN);
             c.setTime(ymd.parse(dateList.get(index)));
@@ -131,6 +146,44 @@ public class ItineraryDetail extends AppCompatActivity {
         // 目前資料尚未串接 → 顯示「空資料」樣式
         dayAdapter.showPlaceholderForDay(index);
     }
+
+    // 顯示「從哪裡挑選地點」的對話框（使用你提供的 item_dialog_itinerary.xml）
+    private void showChooseSourceDialog() {
+        final Dialog dialog = new Dialog(this); // ← 換這行
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+        View root = LayoutInflater.from(this).inflate(R.layout.item_dialog_itinerary, null);
+        dialog.setContentView(root);
+
+        LinearLayout rowFromStation   = root.findViewById(R.id.row_from_station);
+        LinearLayout rowFromFavorites = root.findViewById(R.id.row_from_favorites);
+        AppCompatButton btnCancel     = root.findViewById(R.id.btn_cancel_source);
+        AppCompatButton btnConfirm    = root.findViewById(R.id.btn_confirm_source);
+
+        final int[] selection = { 0 }; // 0 = station, 1 = favorites
+        rowFromStation.setOnClickListener(v -> selection[0] = 0);
+        rowFromFavorites.setOnClickListener(v -> selection[0] = 1);
+
+        btnCancel.setOnClickListener(v -> dialog.dismiss());
+        btnConfirm.setOnClickListener(v -> {
+            dialog.dismiss();
+            String pickedDate = (selectedDayIndex >= 0 && selectedDayIndex < dateList.size())
+                    ? dateList.get(selectedDayIndex) : startDate;
+//            if (selection[0] == 0) onChooseFromStation(pickedDate);
+//            else onChooseFromFavorites(pickedDate);
+        });
+
+        Window window = dialog.getWindow();
+        if (window != null) {
+            window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT)); // 你的 CardView 會保留圓角
+            WindowManager.LayoutParams lp = window.getAttributes();
+            lp.gravity = Gravity.CENTER;
+            window.setAttributes(lp);
+        }
+        dialog.show();
+    }
+
 
     private void addOneDay() {
         if (dateList.isEmpty()) return;
@@ -214,7 +267,7 @@ public class ItineraryDetail extends AppCompatActivity {
             TextView tv = new TextView(parent.getContext());
             int pad = (int) (16 * parent.getContext().getResources().getDisplayMetrics().density);
             tv.setPadding(pad, pad, pad, pad);
-            tv.setText("（這天尚未加入地點，之後會顯示行程項目）");
+            tv.setText("Start planning your day by adding places!");
             return tv;
         }
     }

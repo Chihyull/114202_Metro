@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -63,6 +64,7 @@ public class ItinerarySetting extends AppCompatActivity {
     private final ArrayList<StationItem> stationList = new ArrayList<>();
     private final ArrayList<String> stationDisplay = new ArrayList<>();
     private boolean stationsLoaded = false;
+    private boolean aiMode = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +76,8 @@ public class ItinerarySetting extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        boolean aiMode = getIntent().getBooleanExtra("EXTRA_AI_MODE", false);
 
         editTitleName = findViewById(R.id.edit_title_name);
         editStartDate = findViewById(R.id.edit_start_date);
@@ -105,6 +109,15 @@ public class ItinerarySetting extends AppCompatActivity {
 
             createItineraryOnServer(currentUserGmail, title, startDateStr, endDateStr, destStationCode);
         });
+
+        TextView tvTitle = findViewById(R.id.title_itisetting);
+        if (aiMode) {
+            tvTitle.setText("AI Itinerary");
+            btn_confirm.setText("Generate with AI");
+        } else {
+            tvTitle.setText(getString(R.string.title_itisetting));
+            btn_confirm.setText(getString(R.string.btn_confirm));
+        }
     }
 
     /** Material Date Range Picker：一次選起訖日期 */
