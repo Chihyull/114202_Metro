@@ -2,6 +2,7 @@ package com.example.a114202_metro.Itinerary;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
@@ -75,6 +76,17 @@ public class ItineraryAdapter extends RecyclerView.Adapter<ItineraryAdapter.View
         holder.title.setText(item.title);
         holder.date.setText(item.startDate + " ~ " + item.endDate);
         holder.dest.setText(item.dest);
+
+        // 點整列 → 進行程詳情
+        holder.itemView.setOnClickListener(v -> {
+            Intent intent = new Intent(context, ItineraryDetail.class);
+            intent.putExtra(ItineraryDetail.EXTRA_ITS_NO, item.itsNo);
+            intent.putExtra(ItineraryDetail.EXTRA_TITLE, item.title);
+            intent.putExtra(ItineraryDetail.EXTRA_START, item.startDate);
+            intent.putExtra(ItineraryDetail.EXTRA_END, item.endDate);
+            intent.putExtra(ItineraryDetail.EXTRA_DEST, item.dest);
+            context.startActivity(intent);
+        });
 
         holder.btnEdit.setOnClickListener(v -> showEditDialog(item, position));
     }
